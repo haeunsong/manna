@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#auth-wrapper{
+    margin:0px;
+    min-height: 900px; 
+
+    /* 안에 있는 얘 중앙정렬을 위해 */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+
+    background-image: url(assets/image/bible-on-wood.jpg);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+}
+
+.auth-card {
+    position: absolute; /* 절대 위치 설정 */
+    top: 50%; /* 화면 상단에서 절반만큼 이동 */
+    left: 50%; /* 화면 왼쪽에서 절반만큼 이동 */
+    transform: translate(-50%, -50%);
+    background-color: rgba(255,255,255,1);
+    border-radius: 10px;;
+    padding: 50px 50px 30px;
+    
+}
+
+.auth-card-box {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:50px;
+}
+
+.auth-card-top {
+    font: 90px;
+}
+.auth-card-middle {
+    display:flex;
+    flex-direction: column;
+   
+}
+.input-label {
+   font-size: 15px;
+   margin-top: 15px;
+}
+input {
+    border:none;
+    background:none;
+    outline:none; 
+
+    flex: 1;
+
+    color:rgba(0,0,0,0.7);
+    font-size:14px;
+    font-weight:400;
+    line-height: 140%;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    padding: 11px 16px 11px 0px;
+}
+.auth-card-bottom {
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+button {
+    width: 250px; 
+    height: 40px;
+    padding: 2px; 
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    outline: none; 
+    font: rgba(255,255,255,1);
+    background-color: gray;
+    color:rgba(255,255,255,1);
+    font-weight: bold;
+}
+button:hover{
+    cursor:pointer;
+background-color: rgba(0,0,0,3);}
+.question {
+    font-size: 13px;
+    display:flex;
+    justify-content: center;
+}
+span {
+    color: rgba(0,0,0,1);
+    cursor:pointer;
+    font-weight: 600;
+}
