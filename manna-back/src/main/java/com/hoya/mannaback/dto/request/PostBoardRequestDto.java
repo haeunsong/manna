@@ -15,7 +15,7 @@ public class PostBoardRequestDto {
     private String title;
     @NotBlank
     private String content;
-    @NotNull
+
     private List<String> boardImageList;
     @NotBlank
     private String writerNickname;

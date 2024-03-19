@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hoya.Service.BoardService;
+import com.hoya.mannaback.Service.BoardService;
 import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 import com.hoya.mannaback.dto.response.PostBoardResponseDto;
 
@@ -20,9 +20,10 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class BoardController {
 
+    @Autowired
     private final BoardService boardService;
 
-    @PostMapping("")
+    @PostMapping("/post")
     public ResponseEntity<? super PostBoardResponseDto> postBoard(
             @RequestBody @Valid PostBoardRequestDto requestBody) {
         ResponseEntity<? super PostBoardResponseDto> response = boardService.postBoard(requestBody);

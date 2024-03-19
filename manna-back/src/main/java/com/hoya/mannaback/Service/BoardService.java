@@ -1,5 +1,6 @@
-package com.hoya.Service;
+package com.hoya.mannaback.Service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.hoya.mannaback.entity.Image;
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -21,25 +23,24 @@ import java.util.List;
 @AllArgsConstructor
 public class BoardService {
 
-    @Autowired
     private final BoardRepository boardRepository;
-    @Autowired
     private final ImageRepository imageRepository;
+    // ModelMapper modelMapper = new ModelMapper();
 
-    public ResponseEntity<? super PostBoardResponseDto> postBoard(PostBoardRequestDto dto) {
+    public ResponseEntity<? super PostBoardResponseDto> postBoard(@Valid PostBoardRequestDto dto) {
         try {
             // auth 기능 없이 게시물 작성시에 닉네임 기재
 
+            // board 만들어서 db에 저장
             Board board = new Board(dto);
             boardRepository.save(board);
 
-            int boardNumber = board.getBoardNumber();
-
+            // int boardNumber = board.getBoardNumber();
             List<String> boardImageList = dto.getBoardImageList();
             List<Image> images = new ArrayList<>();
 
             for (String imageUrl : boardImageList) {
-                Image image = new Image(boardNumber, imageUrl);
+                Image image = new Image(board, imageUrl);
                 images.add(image);
             }
             imageRepository.saveAll(images);
@@ -51,5 +52,9 @@ public class BoardService {
 
         return PostBoardResponseDto.success();
     }
+
+    // public Board toEntity(PostBoardRequestDto postBoardRequestDto) {
+    // return modelMapper.map(postBoardRequestDto, Board.class);
+    // }
 
 }

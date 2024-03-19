@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -13,11 +15,14 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int sequence;
 
-    int boardNumber;
+    @ManyToOne
+    @JoinColumn(name = "boardNumber")
+    Board board;
+
     String imageUrl;
 
-    public Image(int boardNumber, String imageUrl) {
-        this.boardNumber = boardNumber;
+    public Image(Board board, String imageUrl) {
+        this.board = board;
         this.imageUrl = imageUrl;
     }
 
