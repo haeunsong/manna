@@ -1,6 +1,8 @@
 package com.hoya.mannaback.Service;
 
-import org.modelmapper.ModelMapper;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,48 +15,36 @@ import com.hoya.mannaback.entity.Image;
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
 
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
-@AllArgsConstructor
 public class BoardService {
 
-    private final BoardRepository boardRepository;
-    private final ImageRepository imageRepository;
-    // ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private BoardRepository boardRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
-    public ResponseEntity<? super PostBoardResponseDto> postBoard(@Valid PostBoardRequestDto dto) {
+    // dto를 받아서 Board 엔터티에 저장하고, 그 엔터티를 저장한다.
+    public ResponseEntity<? super PostBoardResponseDto> postBoard(PostBoardRequestDto dto) {
         try {
-            // auth 기능 없이 게시물 작성시에 닉네임 기재
 
-            // board 만들어서 db에 저장
             Board board = new Board(dto);
             boardRepository.save(board);
 
-            // int boardNumber = board.getBoardNumber();
+            int boardNumber = board.getBoardNumber();
             List<String> boardImageList = dto.getBoardImageList();
             List<Image> images = new ArrayList<>();
 
             for (String imageUrl : boardImageList) {
-                Image image = new Image(board, imageUrl);
+                Image image = new Image(boardNumber, imageUrl);
                 images.add(image);
             }
             imageRepository.saveAll(images);
 
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseDto.databaseError();
         }
-
         return PostBoardResponseDto.success();
     }
-
-    // public Board toEntity(PostBoardRequestDto postBoardRequestDto) {
-    // return modelMapper.map(postBoardRequestDto, Board.class);
-    // }
 
 }

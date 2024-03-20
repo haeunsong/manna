@@ -13,10 +13,9 @@ public class PostBoardResponseDto extends ResponseDto {
 
     private PostBoardResponseDto() {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-
     }
 
-    public static ResponseEntity<PostBoardResponseDto> success() {
+    public static ResponseEntity<? super PostBoardResponseDto> success() {
         PostBoardResponseDto result = new PostBoardResponseDto();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

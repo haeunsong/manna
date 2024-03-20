@@ -17,17 +17,19 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/board")
-@AllArgsConstructor
 public class BoardController {
 
     @Autowired
     private final BoardService boardService;
 
-    @PostMapping("/post")
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
+    }
+
+    @PostMapping(path = "")
     public ResponseEntity<? super PostBoardResponseDto> postBoard(
             @RequestBody @Valid PostBoardRequestDto requestBody) {
         ResponseEntity<? super PostBoardResponseDto> response = boardService.postBoard(requestBody);
         return response;
     }
-
 }

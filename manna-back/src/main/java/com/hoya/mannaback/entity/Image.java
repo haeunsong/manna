@@ -15,14 +15,12 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int sequence;
 
-    @ManyToOne
-    @JoinColumn(name = "boardNumber")
-    Board board;
+    int boardNumber;
 
     String imageUrl;
 
-    public Image(Board board, String imageUrl) {
-        this.board = board;
+    public Image(int boardNumber, String imageUrl) {
+        this.boardNumber = boardNumber;
         this.imageUrl = imageUrl;
     }
 

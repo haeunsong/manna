@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,17 +22,13 @@ import lombok.NoArgsConstructor;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     int boardNumber;
 
     String title;
     String content;
     String writeDatetime;
     String writerNickname;
-
-    // 보드 하나에 이미지 여러개
-    @ManyToOne
-    @JoinColumn(name = "sequence")
-    Image image;
 
     public Board(PostBoardRequestDto dto) {
 
