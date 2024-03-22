@@ -1,6 +1,7 @@
 import {
   BOARD_DETAIL_PATH,
   BOARD_PATH,
+  BOARD_WRITE_PATH,
   MAIN_PATH,
   SEARCH_PATH,
 } from "constant";
@@ -26,6 +27,10 @@ const Header = () => {
 
   const onLogoClick = () => {
     navigate(MAIN_PATH());
+  };
+  // 글 작성하기 버튼 클릭 시
+  const onBoardWriteClickHandler = () => {
+    navigate(BOARD_PATH() + "/" + BOARD_WRITE_PATH());
   };
 
   const SearchButton = () => {
@@ -103,7 +108,7 @@ const Header = () => {
           <SearchButton />
         </div>
         <div className="header-right-box">
-          <button>글 작성하기</button>
+          <button onClick={onBoardWriteClickHandler}>글 작성하기</button>
         </div>
       </div>
     </div>
