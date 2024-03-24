@@ -21,8 +21,9 @@
 .board-write-title-box {
     width: 100%;
 }
-.board-write-title-input {
+.board-write-title-textarea {
     width: 100%;
+    
     border: none;
     outline: none;
     background: none;
@@ -30,6 +31,8 @@
     font-size: 32px;
     font-weight: 500;
     line-height: 140%;
+    resize: none;
+
 }
 .board-write-content-box {
     width: 100%;
