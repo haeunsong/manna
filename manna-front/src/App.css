@@ -1,4 +1,6 @@
-
+.divider {
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
 
 .logo-icon {
   background-image: url(assets/image/logo-icon.png);
@@ -6,6 +8,14 @@
 }
 .search-light-icon {
   background-image: url(assets/image/search-light.png);
+
+}
+.image-box-light-icon {
+  background-image: url(assets/image/image-box-light.png);
+
+}
+.close-icon {
+  background-image: url(assets/image/close.png);
 
 }
 .icon {

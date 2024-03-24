@@ -51,11 +51,22 @@ export default function BoardWrite() {
               accept="image/*"
               style={{ display: "none" }}
             />
-            <input />
           </div>
           <div className="board-write-images-box">
             <div className="board-write-image-box">
-              <img className="board-write-image" />
+              <img
+                className="board-write-image"
+                src="https://img.freepik.com/premium-photo/morning-view-of-the-small-town-of-amalfi-on-the-mediterranean-coast-italy_150729-72.jpg?w=1380"
+              />
+              <div className="icon-button image-close">
+                <div className="icon close-icon"></div>
+              </div>
+            </div>
+            <div className="board-write-image-box">
+              <img
+                className="board-write-image"
+                src="https://img.freepik.com/premium-photo/morning-view-of-the-small-town-of-amalfi-on-the-mediterranean-coast-italy_150729-72.jpg?w=1380"
+              />
               <div className="icon-button image-close">
                 <div className="icon close-icon"></div>
               </div>
