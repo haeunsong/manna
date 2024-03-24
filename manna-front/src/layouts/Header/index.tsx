@@ -22,6 +22,9 @@ const Header = () => {
   const isBoardDetailPage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_DETAIL_PATH("")
   );
+  const isBoardWritePage = pathname.startsWith(
+    BOARD_PATH() + "/" + BOARD_WRITE_PATH()
+  );
 
   const navigate = useNavigate();
 
@@ -32,6 +35,8 @@ const Header = () => {
   const onBoardWriteClickHandler = () => {
     navigate(BOARD_PATH() + "/" + BOARD_WRITE_PATH());
   };
+  // 글 업로드 버튼 클릭 시
+  const onBoardUploadClickHandler = () => {};
 
   const SearchButton = () => {
     // state: 검색어 버튼 요소 참조 상태
@@ -105,11 +110,18 @@ const Header = () => {
         <div className="header-middle-box">
           {/* {(isMainPage || isBoardDetailPage) && <SearchButton />}
            */}
-          <SearchButton />
+          {!isBoardWritePage && <SearchButton />}
+          {/* <SearchButton /> */}
         </div>
-        <div className="header-right-box">
-          <button onClick={onBoardWriteClickHandler}>글 작성하기</button>
-        </div>
+        {isBoardWritePage ? (
+          <div className="header-right-box">
+            <button onClick={onBoardUploadClickHandler}>글 업로드</button>
+          </div>
+        ) : (
+          <div className="header-right-box">
+            <button onClick={onBoardWriteClickHandler}>글 작성하기</button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { BOARD_PATH, BOARD_WRITE_PATH } from "constant";
 import Header from "layouts/Header";
 import { Outlet, useLocation } from "react-router-dom";
 
