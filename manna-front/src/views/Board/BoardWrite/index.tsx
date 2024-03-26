@@ -33,6 +33,44 @@ export default function BoardWrite() {
     contentRef.current.style.height = "auto";
     contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
   };
+  const onImageUploadIconButtonClickHandler = () => {
+    if (!imageInputRef.current) return;
+    imageInputRef.current.click();
+  };
+  // 이미지 닫기 버튼
+  const onImageCloseButtonClickHandler = (deleteIndex: number) => {
+    if (!imageInputRef.current) return;
+    imageInputRef.current.value = "";
+
+    const newImageUrls = imageUrls.filter(
+      (url, index) => index !== deleteIndex
+    );
+    setImageUrls(newImageUrls);
+
+    const newBoardImageFileList = boardImageFileList.filter(
+      (file, index) => index !== deleteIndex
+    );
+    setBoardImageFileList(newBoardImageFileList);
+  };
+  const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || !e.target.files.length) return;
+    const file = e.target.files[0];
+
+    // 미리보기용 url
+    const imageUrl = URL.createObjectURL(file);
+    const newImageUrls = imageUrls.map((item) => item);
+    newImageUrls.push(imageUrl);
+    setImageUrls(newImageUrls);
+
+    // 업로드용
+    const newBoardImageFileList = boardImageFileList.map((item) => item);
+    newBoardImageFileList.push(file);
+    setBoardImageFileList(newBoardImageFileList);
+
+    // 이걸 안하면 중복 사진을 넣지 못한다.
+    if (!imageInputRef.current) return;
+    imageInputRef.current.value = "";
+  };
 
   // effect: 마운트시 실행할 함수
   useEffect(() => {
@@ -62,7 +100,10 @@ export default function BoardWrite() {
               value={content}
               onChange={onContentChangeHandler}
             />
-            <div className="icon-button">
+            <div
+              className="icon-button"
+              onClick={onImageUploadIconButtonClickHandler}
+            >
               <div className="icon image-box-light-icon"></div>
             </div>
             <input
@@ -70,19 +111,23 @@ export default function BoardWrite() {
               type="file"
               accept="image/*"
               style={{ display: "none" }}
+              onChange={onImageChangeHandler}
             />
           </div>
           <div className="board-write-images-box">
-            <div className="board-write-image-box">
-              <img
-                className="board-write-image"
-                src="https://img.freepik.com/free-photo/photo-of-a-canal-of-a-city_1163-159.jpg?w=1380&t=st=1711285772~exp=1711286372~hmac=cfba8d82e0468f4c679fa4f9ddb6f5c3e5afd5db4149da37b730d65e4de8f6eb"
-              />
-              <div className="icon-button image-close">
-                <div className="icon close-icon"></div>
+            {imageUrls.map((imageUrl, index) => (
+              <div className="board-write-image-box">
+                <img className="board-write-image" src={imageUrl} />
+                <div
+                  className="icon-button image-close"
+                  onClick={() => onImageCloseButtonClickHandler(index)}
+                >
+                  <div className="icon close-icon"></div>
+                </div>
               </div>
-            </div>
-            <div className="board-write-image-box">
+            ))}
+
+            {/* <div className="board-write-image-box">
               <img
                 className="board-write-image"
                 src="https://img.freepik.com/premium-photo/modern-city_637484-170.jpg?w=740"
@@ -99,7 +144,7 @@ export default function BoardWrite() {
               <div className="icon-button image-close">
                 <div className="icon close-icon"></div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
