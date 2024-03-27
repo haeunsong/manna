@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,8 +18,9 @@ public class PostBoardRequestDto {
     @NotBlank
     private String content;
 
-    private List<String> boardImageList;
     @NotBlank
     private String writerNickname;
+
+    private List<String> boardImageList = new ArrayList<>();
 
 }

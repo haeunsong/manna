@@ -23,7 +23,7 @@ public class BoardController {
     @Autowired
     private final BoardService boardService;
 
-    @PostMapping("/post")
+    @PostMapping("")
     public ResponseEntity<? super PostBoardResponseDto> postBoard(
             @RequestBody @Valid PostBoardRequestDto requestBody) {
         ResponseEntity<? super PostBoardResponseDto> response = boardService.postBoard(requestBody);

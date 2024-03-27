@@ -2,8 +2,10 @@ package com.hoya.mannaback.entity;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 
@@ -37,10 +39,11 @@ public class Board {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "board")
-    Image image;
+    List<Image> images = new ArrayList<>();
 
     public Board(PostBoardRequestDto dto) {
 
+        System.out.println("호출됨");
         Date now = Date.from(Instant.now());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // now 에 저장된 날짜와 시간을 형식화하여 문자열로 반환한다.

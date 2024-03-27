@@ -34,12 +34,14 @@ public class BoardService {
             // board 만들어서 db에 저장
             Board board = new Board(dto);
             boardRepository.save(board);
+            System.out.println("글 저장완료");
+            // // int boardNumber = board.getBoardNumber();
+            // List<String> boardImageList = dto.getBoardImageList();
+            // List<Image> images = new ArrayList<>();
 
-            // int boardNumber = board.getBoardNumber();
-            List<String> boardImageList = dto.getBoardImageList();
             List<Image> images = new ArrayList<>();
 
-            for (String imageUrl : boardImageList) {
+            for (String imageUrl : dto.getBoardImageList()) {
                 Image image = new Image(board, imageUrl);
                 images.add(image);
             }
@@ -52,9 +54,5 @@ public class BoardService {
 
         return PostBoardResponseDto.success();
     }
-
-    // public Board toEntity(PostBoardRequestDto postBoardRequestDto) {
-    // return modelMapper.map(postBoardRequestDto, Board.class);
-    // }
 
 }
