@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 
 import jakarta.persistence.Entity;
@@ -12,8 +13,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -29,8 +33,10 @@ public class Board {
     String writerNickname;
 
     // 보드 하나에 이미지 여러개
-    @ManyToOne
-    @JoinColumn(name = "sequence")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "board")
     Image image;
 
     public Board(PostBoardRequestDto dto) {

@@ -20,7 +20,10 @@ public class FileService {
     public String upload(MultipartFile file) {
         if (file.isEmpty())
             return null;
+
         String originalFileName = file.getOriginalFilename();
+        // lastIndexOf로 '.' 의 인덱스 위치를 찾고, substring으로 주어진 시작 인덱스부터 끝까지 자른다.
+        // 즉 확장자를 얻어낸다.
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String uuid = UUID.randomUUID().toString();
         String saveFileName = uuid + extension;

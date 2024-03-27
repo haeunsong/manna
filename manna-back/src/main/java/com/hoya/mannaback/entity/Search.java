@@ -11,7 +11,7 @@ import lombok.Data;
 public class Search {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sequence;
+    private int searchId;
     private String searchWord;
     private String relationWord;
     private Integer relation;
