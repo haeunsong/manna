@@ -8,7 +8,6 @@ import {
   BOARD_UPDATE_PATH,
   BOARD_WRITE_PATH,
   MAIN_PATH,
-  USER_PATH,
 } from "constant";
 
 import Authentication from "views/Authentication";
@@ -26,7 +25,6 @@ function App() {
       <Route element={<Container />}>
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
-        <Route path={USER_PATH(":userEmail")} element={<User />} />
 
         <Route path={BOARD_PATH()}>
           <Route path={BOARD_WRITE_PATH()} element={<BoardWrite />} />

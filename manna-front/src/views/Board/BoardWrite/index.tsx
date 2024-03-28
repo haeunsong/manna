@@ -3,6 +3,8 @@ import "./style.css";
 import useBoardStore from "stores/board.store";
 
 export default function BoardWrite() {
+  // state: 닉네임 영역 요소 참조 상태
+  const writerNicknameRef = useRef<HTMLInputElement | null>(null);
   // state: 제목 영역 요소 참조 상태
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   // state: 본문 영역 요소 참조 상태
@@ -13,6 +15,7 @@ export default function BoardWrite() {
   // state: 게시물 상태
   const { title, setTitle } = useBoardStore();
   const { content, setContent } = useBoardStore();
+  const { writerNickname, setWriterNickname } = useBoardStore();
   const { boardImageFileList, setBoardImageFileList } = useBoardStore();
   const { resetBoard } = useBoardStore();
 
@@ -32,6 +35,9 @@ export default function BoardWrite() {
     if (!contentRef.current) return;
     contentRef.current.style.height = "auto";
     contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
+  };
+  const onWriterNicknameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setWriterNickname(e.target.value);
   };
   const onImageUploadIconButtonClickHandler = () => {
     if (!imageInputRef.current) return;
@@ -54,11 +60,14 @@ export default function BoardWrite() {
   };
   const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files.length) return;
+    // 첫번째 파일을 가져와서
     const file = e.target.files[0];
 
-    // 미리보기용 url
+    // 미리보기용 url을 생성한다.
     const imageUrl = URL.createObjectURL(file);
+    // 이전 imageUrls 을 모두 복사하고
     const newImageUrls = imageUrls.map((item) => item);
+    // 새로운 ImageUrl을 넣는다.
     newImageUrls.push(imageUrl);
     setImageUrls(newImageUrls);
 
@@ -81,6 +90,15 @@ export default function BoardWrite() {
     <div id="board-write-wrapper">
       <div className="board-write-container">
         <div className="board-write-box">
+          <div className="board-write-nickname-box">
+            <input
+              ref={writerNicknameRef}
+              className="board-write-nickname"
+              placeholder="닉네임을 입력해주세요."
+              value={writerNickname}
+              onChange={onWriterNicknameChangeHandler}
+            ></input>
+          </div>
           <div className="board-write-title-box">
             <textarea
               ref={titleRef}

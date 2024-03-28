@@ -15,9 +15,9 @@ export default function Main() {
     return (
       <div id="main-top-wrapper">
         <div className="main-top-container">
-          <div className="main-top-intro">Manna Board</div>
+          {/* <div className="main-top-intro">게시글 목록</div> */}
           <div className="main-top-contents-box">
-            <div className="main-top-contents-title"></div>
+            {/* <div className="main-top-contents-title"></div> */}
             <div className="main-top-contents">
               {topBoardList.map((topBoardList) => (
                 <BoardItem boardListItem={topBoardList} />

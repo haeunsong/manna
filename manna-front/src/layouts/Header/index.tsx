@@ -14,6 +14,12 @@ import React, {
 } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./style.css";
+import useBoardStore from "stores/board.store";
+import { fileUploadRequest, postBoardRequest } from "apis";
+import axios from "axios";
+import PostBoardRequestDto from "apis/request/board";
+import PostBoardResponseDto from "apis/response/board";
+import ResponseDto from "apis/response";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -25,6 +31,9 @@ const Header = () => {
   const isBoardWritePage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_WRITE_PATH()
   );
+  // state: 게시물 상태
+  const { title, content, writerNickname, boardImageFileList, resetBoard } =
+    useBoardStore();
 
   const navigate = useNavigate();
 
@@ -35,8 +44,42 @@ const Header = () => {
   const onBoardWriteClickHandler = () => {
     navigate(BOARD_PATH() + "/" + BOARD_WRITE_PATH());
   };
+  // function : post board response 처리 함수
+  const postBoardResponse = (
+    responseBody: PostBoardResponseDto | ResponseDto | null
+  ) => {
+    console.log(responseBody);
+    if (!responseBody) return;
+    const { code } = responseBody;
+    if (code === "DBE") alert("데이터베이스 오류입니다.");
+    if (code !== "SU") alert("오류발생");
+
+    resetBoard();
+    navigate(MAIN_PATH());
+  };
   // 글 업로드 버튼 클릭 시
-  const onBoardUploadClickHandler = () => {};
+  const onBoardUploadClickHandler = async () => {
+    console.log("onBoardUploadClickHandler() 호출!");
+    const boardImageList: string[] = [];
+    // 동기 처리 해야함
+    for (const file of boardImageFileList) {
+      console.log("image for문 으로 들어옴!");
+      const data = new FormData();
+      data.append("file", file);
+      // data 전달
+      const url = await fileUploadRequest(data);
+      console.log("url  = " + url);
+      if (url) boardImageList.push(url);
+    }
+    const requestBody: PostBoardRequestDto = {
+      title,
+      content,
+      writerNickname,
+      boardImageList,
+    };
+    console.log("requestBody 넘기자");
+    postBoardRequest(requestBody).then(postBoardResponse);
+  };
 
   const SearchButton = () => {
     // state: 검색어 버튼 요소 참조 상태
