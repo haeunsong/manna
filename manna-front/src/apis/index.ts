@@ -7,6 +7,8 @@ import { request } from 'http';
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
 
+// 백엔드에서 게시물 목록 조회
+
 // http://localhost:4000/api/v1/board/post
 const POST_BOARD_URL = () => `${API_DOMAIN}/board/post`;
  
