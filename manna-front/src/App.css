@@ -1,3 +1,7 @@
+.more-icon {
+  background-image: url(assets/image/more.png);
+
+}
 .divider {
   border-top: 1px solid rgba(0,0,0,0.2);
 }
