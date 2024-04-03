@@ -1,25 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
+import { useNavigate, useParams } from "react-router-dom";
+import Board from "types/interface/board.interface";
+import { getBoardDetailRequest } from "apis";
+import ResponseDto from "apis/response";
+import { MAIN_PATH } from "constant";
+import { GetBoardResponseDto } from "apis/response/board";
 
 export default function BoardDetail() {
   const BoardDetailTop = () => {
     // state: more 버튼 상태
     const [showMore, setShowMore] = useState(false);
 
+    const [board, setBoard] = useState<Board>();
+    // state: 게시물 번호
+    const { boardNumber } = useParams();
+
     // event handler: more 버튼 클릭 이벤트 처리
     const onMoreButtonClickHandler = () => {
       setShowMore(!showMore);
     };
+
+    const navigator = useNavigate();
+
+    // function : get board Response 처리함수
+    const getBoardResponse = (
+      responseBody: GetBoardResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) return;
+      const { code } = responseBody;
+      if (code === "NB") alert("존재하지 않는 게시물입니다.");
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code !== "SU") {
+        navigator(MAIN_PATH());
+        return;
+      }
+      const board: Board = {
+        ...(responseBody as GetBoardResponseDto),
+      };
+      console.log("board", board);
+      setBoard(board);
+    };
+
+    useEffect(() => {
+      if (!boardNumber) {
+        alert("해당 게시물이 존재하지 않습니다.");
+      }
+      getBoardDetailRequest(boardNumber).then(getBoardResponse);
+    }, [boardNumber]);
+
     return (
       <div id="board-detail-top">
         {/* top */}
         <div className="board-detail-top-header">
-          <div className="board-detail-title">제목제목제목</div>
+          <div className="board-detail-title">{board?.title}</div>
           <div className="board-detail-subbox">
             <div className="board-detail-write-info-box">
-              <div className="board-detail-writer-nickname">호야호잇</div>
+              <div className="board-detail-writer-nickname">
+                {board?.writerNickname}
+              </div>
               <div className="board-detail-info-divider">{"|"}</div>
-              <div className="board-detail-write-date">2024-04-02 11:04:00</div>
+              <div className="board-detail-write-date">
+                {board?.writeDatetime}
+              </div>
             </div>
             <div className="icon-button" onClick={onMoreButtonClickHandler}>
               <div className="icon more-icon"></div>
@@ -37,16 +80,15 @@ export default function BoardDetail() {
         <div className="divider"></div>
         {/* 본문 */}
         <div className="board-detail-top-main">
-          <div className="board-detail-main-text">
-            {
-              "아내의 이야기를 예로 들어보자. 교수인 나는 학생들의 기말이 끝난 7월 초에 가장 여유가 있다. 하지만, 고등학생인 두 아들은 딱 그 기간에 기말고사를 본다. 여유가 있는 나는 아내에게 같이 놀러가자고 한다. 하지만 아내는 아들이 시험을 보는데 어떻게 놀라가냐며, 나를 나무란다. 우리 사회가 가지고 있 는 세대 갈등과 사회 갈등의 핵심에 무엇이 있는지 아는가? 바로 '인고의 착각'이다. 이런 생각 해 본 적이 있는가?"
-            }
-          </div>
-          <img
-            alt="배경1"
-            className="board-detail-main-image"
-            src="https://kor.pngtree.com/freebackground/cherry-blossoms-at-sunset-jpg_12755291.html"
-          ></img>
+          <div className="board-detail-main-text">{board?.content}</div>
+          {board?.boardImageList.map((src, index) => (
+            <img
+              key={index}
+              className="board-detail-main-image"
+              src={src}
+              alt={`Board Image ${index}`}
+            />
+          ))}
         </div>
       </div>
     );

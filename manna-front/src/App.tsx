@@ -18,6 +18,7 @@ import BoardUpdate from "views/Board/BoardUpdate";
 import Main from "views/Main";
 import Header from "layouts/Header";
 import Container from "layouts/Container";
+import BoardDetail from "views/Board/BoardDetail";
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
           <Route
             // /board/detail/:boardNumber
             path={BOARD_DETAIL_PATH(":boardNumber")}
-            // element={<BoardDetail />}
+            element={<BoardDetail />}
           />
           <Route
             // /board/update/:boardNumber => edit

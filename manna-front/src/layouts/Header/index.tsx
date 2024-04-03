@@ -18,8 +18,9 @@ import useBoardStore from "stores/board.store";
 import { fileUploadRequest, postBoardRequest } from "apis";
 import axios from "axios";
 import PostBoardRequestDto from "apis/request/board";
-import PostBoardResponseDto from "apis/response/board";
+
 import ResponseDto from "apis/response";
+import { PostBoardResponseDto } from "apis/response/board";
 
 const Header = () => {
   const { pathname } = useLocation();

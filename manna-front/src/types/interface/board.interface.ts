@@ -1,11 +1,11 @@
-export default interface BoardListItem {
+export default interface Board {
     boardNumber: number;
     writerNickname: string;
     writeDatetime: string;
     title: string;
     content: string;
   
-    boardTitleImage: string | null;
+    boardImageList: string[];
   }
   
   

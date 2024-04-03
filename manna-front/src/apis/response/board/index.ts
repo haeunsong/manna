@@ -1,5 +1,10 @@
+import Board from "types/interface/board.interface";
 import ResponseDto from "..";
+import PostBoardResponseDto from "./post-board-interface";
+import GetBoardResponseDto from "./get-board-interface";
 
-export default interface PostBoardResponseDto extends ResponseDto {
-   
+
+export type {
+    PostBoardResponseDto,
+    GetBoardResponseDto
 }

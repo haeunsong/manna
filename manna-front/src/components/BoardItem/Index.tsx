@@ -1,6 +1,8 @@
 import React from "react";
 import "./style.css";
 import BoardListItem from "types/interface/board-list-item.interface";
+import { useNavigate } from "react-router-dom";
+import { BOARD_DETAIL_PATH, BOARD_PATH } from "constant";
 
 interface Props {
   boardListItem: BoardListItem;
@@ -15,13 +17,21 @@ export default function BoardItem({ boardListItem }: Props) {
     content,
     boardTitleImage,
   } = boardListItem;
+  const navigate = useNavigate();
+  // /board/detail/:boardNumber
+  const onMoveToDetailPageClickHandler = () => {
+    navigate(BOARD_PATH() + "/" + BOARD_DETAIL_PATH(boardNumber));
+  };
 
   return (
     <div
       className="board-list-item"
       style={{ backgroundImage: `url(${boardTitleImage})` }}
     >
-      <div className="board-list-item-box">
+      <div
+        className="board-list-item-box"
+        onClick={onMoveToDetailPageClickHandler}
+      >
         {/* top 부분 */}
         <div className="board-list-item-top">
           <div className="board-list-item-nickname">{writerNickname}</div>
@@ -33,17 +43,6 @@ export default function BoardItem({ boardListItem }: Props) {
           <div className="board-list-item-content">{content}</div>
         </div>
       </div>
-
-      {/* 이미지 존재할 시 이미지 */}
-
-      {boardTitleImage !== null && (
-        <div className="board-list-item-image-box">
-          <div
-            className="board-list-item-image"
-            style={{ backgroundImage: `url(${boardTitleImage})` }}
-          ></div>
-        </div>
-      )}
     </div>
   );
 }
