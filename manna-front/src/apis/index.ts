@@ -15,7 +15,7 @@ const POST_BOARD_URL = () => `${API_DOMAIN}/board/post`;
 export const postBoardRequest = async (requestBody: PostBoardRequestDto) => {
     console.log("postBoardRequest() 호출!");
     console.log("requestBody: "+requestBody);
-    // 여기서 CORS 오류 발생!
+    
     const result = await axios.post(POST_BOARD_URL(), requestBody)
         .then(response=> {
             console.log("response.data"+response.data);

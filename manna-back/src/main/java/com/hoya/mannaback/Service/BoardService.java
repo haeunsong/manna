@@ -2,6 +2,7 @@ package com.hoya.mannaback.Service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final ImageRepository imageRepository;
     // ModelMapper modelMapper = new ModelMapper();
+
+    // 최근 작성된 순으로 게시글 불러오기
+    public List<Board> getAllPosts() {
+        return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "writeDatetime"));
+    }
 
     public ResponseEntity<? super PostBoardResponseDto> postBoard(@Valid PostBoardRequestDto dto) {
         try {
