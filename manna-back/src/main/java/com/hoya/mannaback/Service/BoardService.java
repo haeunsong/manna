@@ -13,6 +13,7 @@ import com.hoya.mannaback.entity.Board;
 import com.hoya.mannaback.entity.Image;
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
+import com.hoya.mannaback.dto.response.GetBoardResponseDto;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,26 @@ public class BoardService {
     // 최근 작성된 순으로 게시글 불러오기
     public List<Board> getAllPosts() {
         return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "writeDatetime"));
+    }
+
+    // 특정 게시물 불러오기
+    public ResponseEntity<? super GetBoardResponseDto> getBoard(Integer boardNumber) {
+
+        Board board = null;
+        List<Image> images = new ArrayList<>();
+
+        try {
+            board = boardRepository.getByBoardNumber(boardNumber);
+            if (board == null)
+                return GetBoardResponseDto.noExistBoard();
+
+            images = imageRepository.findByBoard_BoardNumber(boardNumber);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return GetBoardResponseDto.success(board, images);
+
     }
 
     public ResponseEntity<? super PostBoardResponseDto> postBoard(@Valid PostBoardRequestDto dto) {
