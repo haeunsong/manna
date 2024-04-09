@@ -1,5 +1,7 @@
 package com.hoya.mannaback.dto.response;
 
+import com.hoya.mannaback.entity.Image;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

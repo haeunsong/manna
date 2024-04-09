@@ -17,17 +17,17 @@ export default function BoardItem({ boardListItem }: Props) {
     content,
     boardTitleImage,
   } = boardListItem;
+
   const navigate = useNavigate();
   // /board/detail/:boardNumber
   const onMoveToDetailPageClickHandler = () => {
     navigate(BOARD_PATH() + "/" + BOARD_DETAIL_PATH(boardNumber));
   };
 
+  console.log(boardTitleImage);
+
   return (
-    <div
-      className="board-list-item"
-      style={{ backgroundImage: `url(${boardTitleImage})` }}
-    >
+    <div className="board-list-item">
       <div
         className="board-list-item-box"
         onClick={onMoveToDetailPageClickHandler}
@@ -39,6 +39,14 @@ export default function BoardItem({ boardListItem }: Props) {
         </div>
         {/* middle 부분 */}
         <div className="board-list-item-middle">
+          {boardTitleImage && (
+            <img
+              src={boardTitleImage}
+              alt="boardTitle"
+              className="board-list-item-title-image"
+            />
+          )}
+
           <div className="board-list-item-title">{title}</div>
           <div className="board-list-item-content">{content}</div>
         </div>

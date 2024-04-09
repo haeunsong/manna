@@ -33,7 +33,9 @@ public class BoardService {
     // 최근 작성된 순으로 전체 게시글 불러오기
     public List<BoardListView> getAllPosts() {
         List<Board> boards = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "writeDatetime"));
+
         List<BoardListView> boardListViews = new ArrayList<>();
+
         for (Board board : boards) {
             BoardListView boardListView = new BoardListView();
             boardListView.setBoardNumber(board.getBoardNumber());
@@ -42,14 +44,15 @@ public class BoardService {
             boardListView.setWriteDatetime(board.getWriteDatetime());
             boardListView.setWriterNickname(board.getWriterNickname());
 
-            System.out.println("==================================");
-            if (board.getTitleImage() != null) {
-                System.out.println("타이틀 이미지가 존재합니다.");
-                boardListView.setTitleImage(board.getTitleImage().getImageUrl());
-            } else {
-                System.out.println("타이틀 이미지가 없습니다.");
+            if (imageRepository.findByBoard_BoardNumber(board.getBoardNumber()).size() != 0) {
+                String titleImage = imageRepository.findByBoard_BoardNumber(board.getBoardNumber()).get(0)
+                        .getImageUrl();
+                // System.out.println("==============타이틀 이미지 불러오기================");
+                boardListView.setTitleImage(titleImage);
             }
             boardListViews.add(boardListView);
+            // System.out.println("==========boardListView=========" +
+            // boardListView.getTitleImage());
 
         }
         return boardListViews;
@@ -101,13 +104,13 @@ public class BoardService {
                 images.add(image);
             }
 
-            board.setImages(images);
-            // imageRepository.saveAll(images);
+            // board.setImages(images);
+            imageRepository.saveAll(images);
 
             // 이미지 저장 후, 대표 이미지 설정
-            if (!images.isEmpty()) {
-                board.setTitleImage(images.get(0));
-            }
+            // if (!images.isEmpty()) {
+            // board.setTitleImage(images.get(0));
+            // }
             boardRepository.save(board);
 
         } catch (Exception exception) {

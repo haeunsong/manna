@@ -37,8 +37,9 @@ public class Board {
     String writeDatetime;
     String writerNickname;
 
-    @OneToOne(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Image titleImage;
+    // @OneToOne(mappedBy = "board", cascade = CascadeType.ALL, fetch =
+    // FetchType.LAZY)
+    // private Image titleImage;
 
     // 보드 하나에 이미지 여러개
     @JsonIgnore
