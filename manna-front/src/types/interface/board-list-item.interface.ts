@@ -4,7 +4,6 @@ export default interface BoardListItem {
     writeDatetime: string;
     title: string;
     content: string;
-  
     boardTitleImage: string | null;
   }
   

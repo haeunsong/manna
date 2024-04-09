@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hoya.mannaback.Service.BoardService;
 import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 import com.hoya.mannaback.dto.response.PostBoardResponseDto;
+import com.hoya.mannaback.dto.response.BoardListView;
 import com.hoya.mannaback.dto.response.GetBoardResponseDto;
 import com.hoya.mannaback.entity.Board;
 
@@ -33,7 +34,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/list")
-    public List<Board> getAllPosts() {
+    public List<BoardListView> getAllPosts() {
+        System.out.println("getAllPosts() 호출됨");
         return boardService.getAllPosts();
     }
 
