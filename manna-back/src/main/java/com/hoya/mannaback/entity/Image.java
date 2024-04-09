@@ -2,6 +2,7 @@ package com.hoya.mannaback.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int imageId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "boardNumber")
     Board board;
 
