@@ -4,6 +4,7 @@ import PostBoardRequestDto from './request/board';
 import ResponseDto from './response';
 import { request } from 'http';
 import { GetBoardResponseDto, PostBoardResponseDto } from './response/board';
+import DeleteBoardResponseDto from './response/board/delete-board.response.dto';
 
 
 
@@ -56,6 +57,24 @@ export const postBoardRequest = async (requestBody: PostBoardRequestDto) => {
         })
     return result;
 }
+
+const DELETE_BOARD_URL = (boardNumber: number | string) => `${API_DOMAIN}/board/detail/${boardNumber}`;
+
+// 게시물 삭제 
+export const deleteBoardRequest = async(boardNumber: number | string) => {
+    try {
+        const response = await axios.delete(DELETE_BOARD_URL(boardNumber));
+        const responseBody: DeleteBoardResponseDto = response.data;
+        return responseBody;
+    }catch(error: any) {
+        console.log("error: " + error);
+        if (!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        console.log("error.response.data:" + error.response.data);
+        return responseBody;
+    }
+}
+
 // http://localhost:4000/file
 const FILE_DOMAIN = `${DOMAIN}/file`;
 
@@ -78,3 +97,4 @@ export const fileUploadRequest = async (data: FormData) => {
         })
     return result;
 }
+

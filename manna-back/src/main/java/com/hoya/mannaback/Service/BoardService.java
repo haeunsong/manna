@@ -14,16 +14,17 @@ import com.hoya.mannaback.entity.Image;
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
 import com.hoya.mannaback.dto.response.BoardListView;
+import com.hoya.mannaback.dto.response.DeleteBoardResponseDto;
 import com.hoya.mannaback.dto.response.GetBoardResponseDto;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardService {
 
     private final BoardRepository boardRepository;
@@ -65,7 +66,7 @@ public class BoardService {
         List<Image> images = new ArrayList<>();
 
         try {
-            board = boardRepository.getByBoardNumber(boardNumber);
+            board = boardRepository.findByBoardNumber(boardNumber);
             if (board == null)
                 return GetBoardResponseDto.noExistBoard();
 
@@ -119,6 +120,25 @@ public class BoardService {
         }
 
         return PostBoardResponseDto.success();
+    }
+
+    // 게시물 삭제하기
+    public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(Integer boardNumber) {
+        try {
+            // 보드가 존재하지 않는 경우
+            Board board = boardRepository.findByBoardNumber(boardNumber);
+            if (board == null)
+                return DeleteBoardResponseDto.noExistBoard();
+
+            // 이미지 먼저 지우기!
+            imageRepository.deleteByBoardBoardNumber(boardNumber);
+            boardRepository.delete(board);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return DeleteBoardResponseDto.success();
     }
 
 }

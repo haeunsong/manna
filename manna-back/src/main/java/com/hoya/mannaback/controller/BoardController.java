@@ -6,6 +6,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 import com.hoya.mannaback.dto.response.PostBoardResponseDto;
 import com.hoya.mannaback.dto.response.BoardListView;
 import com.hoya.mannaback.dto.response.GetBoardResponseDto;
+import com.hoya.mannaback.dto.response.DeleteBoardResponseDto;
 import com.hoya.mannaback.entity.Board;
 
 import jakarta.validation.Valid;
@@ -26,12 +28,11 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/board")
-@AllArgsConstructor
 @CrossOrigin
 public class BoardController {
 
     @Autowired
-    private final BoardService boardService;
+    private final BoardService boardService = null;
 
     @GetMapping("/list")
     public List<BoardListView> getAllPosts() {
@@ -52,4 +53,10 @@ public class BoardController {
         return response;
     }
 
+    @DeleteMapping("/detail/{boardNumber}")
+    public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(
+            @PathVariable("boardNumber") Integer boardNumber) {
+        ResponseEntity<? super DeleteBoardResponseDto> response = boardService.deleteBoard(boardNumber);
+        return response;
+    }
 }

@@ -8,5 +8,6 @@ import com.hoya.mannaback.entity.Board;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 
-    Board getByBoardNumber(Integer boardNumber);
+    Board findByBoardNumber(Integer boardNumber);
+
 }

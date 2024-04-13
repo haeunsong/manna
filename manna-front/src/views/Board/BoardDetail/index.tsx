@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Board from "types/interface/board.interface";
-import { getBoardDetailRequest } from "apis";
+import { deleteBoardRequest, getBoardDetailRequest } from "apis";
 import ResponseDto from "apis/response";
 import { MAIN_PATH } from "constant";
 import { GetBoardResponseDto } from "apis/response/board";
+import DeleteBoardResponseDto from "apis/response/board/delete-board.response.dto";
 
 export default function BoardDetail() {
   const BoardDetailTop = () => {
     // state: more 버튼 상태
     const [showMore, setShowMore] = useState(false);
-
+    // state: board
     const [board, setBoard] = useState<Board>();
     // state: 게시물 번호
     const { boardNumber } = useParams();
@@ -19,6 +20,30 @@ export default function BoardDetail() {
     // event handler: more 버튼 클릭 이벤트 처리
     const onMoreButtonClickHandler = () => {
       setShowMore(!showMore);
+    };
+
+    // event handler: 수정 버튼 클릭 이벤트 처리
+
+    // event handler: 삭제 버튼 클릭 이벤트 처리
+    const onDeleteBoard = () => {
+      if (!board || !boardNumber) return;
+      deleteBoardRequest(boardNumber).then(deleteBoardResponse);
+    };
+
+    // function : delete board Response 처리 함수
+    const deleteBoardResponse = (
+      responseBody: DeleteBoardResponseDto | ResponseDto | null
+    ): void => {
+      if (!responseBody) return;
+      const { code } = responseBody;
+      if (code === "DBE") {
+        alert("데이터베이스 오류입니다.");
+        return;
+      }
+      if (code !== "SU") return;
+
+      alert("게시물을 성공적으로 삭제했습니다.");
+      navigator(MAIN_PATH());
     };
 
     const navigator = useNavigate();
@@ -71,7 +96,12 @@ export default function BoardDetail() {
               <div className="board-detail-more-box">
                 <div className="board-detail-update-button">{"수정"}</div>
                 <div className="divider"></div>
-                <div className="board-detail-delete-button">{"삭제"}</div>
+                <div
+                  className="board-detail-delete-button"
+                  onClick={onDeleteBoard}
+                >
+                  {"삭제"}
+                </div>
               </div>
             )}
           </div>
