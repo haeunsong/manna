@@ -24,10 +24,6 @@ export default function BoardItem({ boardListItem }: Props) {
     navigate(BOARD_PATH() + "/" + BOARD_DETAIL_PATH(boardNumber));
   };
 
-  // 이거 왜 undefined 냐....
-  console.log(title);
-  console.log(boardTitleImage);
-
   return (
     <div className="board-list-item">
       <div
