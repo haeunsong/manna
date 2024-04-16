@@ -49,7 +49,7 @@ public class BoardService {
                 String titleImage = imageRepository.findByBoard_BoardNumber(board.getBoardNumber()).get(0)
                         .getImageUrl();
                 // System.out.println("==============타이틀 이미지 불러오기================");
-                boardListView.setTitleImage(titleImage);
+                boardListView.setBoardTitleImage(titleImage);
             }
             boardListViews.add(boardListView);
             // System.out.println("==========boardListView=========" +

@@ -12,6 +12,14 @@ export default function Main() {
   const MainTop = () => {
     const [boards, setBoards] = useState<BoardListItem[]>([]);
 
+    /*
+    boardNumber: 13
+    content: "어려움을 논하지 말라...\n"
+    title: "하루에 2시간도 코테안하면서! 일주일에 몇 문제 안풀면서!"
+    titleImage: "http://localhost:4000/file/9f1be302-7696-4526-9f1d-65af6cebe932.jpg"
+    writeDatetime: "2024-04-04 12:57:52"
+    writerNickname: "투덜투덜"
+    */
     console.log("boards:", boards);
     useEffect(() => {
       // setBoards(topBoardListMock);

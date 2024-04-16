@@ -25,6 +25,7 @@ export default function BoardItem({ boardListItem }: Props) {
   };
 
   // 이거 왜 undefined 냐....
+  console.log(title);
   console.log(boardTitleImage);
 
   return (

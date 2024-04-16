@@ -16,7 +16,7 @@ public class BoardListView {
 
     String title;
     String content;
-    String titleImage; // 타이틀 이미지
+    String boardTitleImage; // 타이틀 이미지
 
     String writeDatetime;
     String writerNickname;
