@@ -1,0 +1,25 @@
+#pagination-wrapper {
+    display: flex;
+    gap:20px;
+}
+
+.pagination-change-link-box {
+    cursor:pointer;
+}
+
+.pagination-text-active {
+    color: rgba(0,0,0,1);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 140%;
+
+
+}
+.pagination-text {
+    color: rgba(0,0,0,0.4);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 140%;
+
+   
+}
