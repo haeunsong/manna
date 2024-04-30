@@ -13,3 +13,7 @@ flex-wrap: wrap;
 justify-content: center;
 
 }
+.main-pagination {
+    display: flex;
+    justify-content: center;
+}

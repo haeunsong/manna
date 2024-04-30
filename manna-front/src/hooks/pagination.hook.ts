@@ -1,5 +1,6 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,Dispatch } from "react";
 
+// interface : 페이지네이션 컴포넌트 Properties
 // 여러곳에서 공통적으로 사용할 것이기 때문에 제네릭 타입으로 설정
 // countPerPage: 한 페이지 당 보여지는 항목의 수
 const usePagination = <T>(countPerPage:number) => {
