@@ -1,23 +1,25 @@
 package com.hoya.mannaback.Service;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.hoya.mannaback.dto.request.PostBoardRequestDto;
-import com.hoya.mannaback.dto.response.PostBoardResponseDto;
-import com.hoya.mannaback.dto.response.ResponseDto;
 import com.hoya.mannaback.entity.Board;
 import com.hoya.mannaback.entity.Image;
+import com.hoya.mannaback.model.request.PostBoardRequestDto;
+import com.hoya.mannaback.model.request.UpdateBoardRequestDto;
+import com.hoya.mannaback.model.response.BoardListView;
+import com.hoya.mannaback.model.response.DeleteBoardResponseDto;
+import com.hoya.mannaback.model.response.GetBoardResponseDto;
+import com.hoya.mannaback.model.response.PostBoardResponseDto;
+import com.hoya.mannaback.model.response.ResponseDto;
+import com.hoya.mannaback.model.response.UpdateBoardResponseDto;
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
-import com.hoya.mannaback.dto.response.BoardListView;
-import com.hoya.mannaback.dto.response.DeleteBoardResponseDto;
-import com.hoya.mannaback.dto.response.GetBoardResponseDto;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class BoardService {
 
         List<BoardListView> boardListViews = new ArrayList<>();
 
+        // 받아온 boards를 boardListView 형식으로 옮기기
         for (Board board : boards) {
             BoardListView boardListView = new BoardListView();
             boardListView.setBoardNumber(board.getBoardNumber());
@@ -45,16 +48,14 @@ public class BoardService {
             boardListView.setWriteDatetime(board.getWriteDatetime());
             boardListView.setWriterNickname(board.getWriterNickname());
 
+            // 게시물의 이미지가 존재한다면 타이틀 이미지 설정하기
             if (imageRepository.findByBoard_BoardNumber(board.getBoardNumber()).size() != 0) {
+                // 첫번째 이미지를 타이틀 이미지로 설정한다.
                 String titleImage = imageRepository.findByBoard_BoardNumber(board.getBoardNumber()).get(0)
                         .getImageUrl();
-                // System.out.println("==============타이틀 이미지 불러오기================");
                 boardListView.setBoardTitleImage(titleImage);
             }
             boardListViews.add(boardListView);
-            // System.out.println("==========boardListView=========" +
-            // boardListView.getTitleImage());
-
         }
         return boardListViews;
     }
@@ -66,6 +67,7 @@ public class BoardService {
         List<Image> images = new ArrayList<>();
 
         try {
+            // boardNumber 로 게시물 찾기
             board = boardRepository.findByBoardNumber(boardNumber);
             if (board == null)
                 return GetBoardResponseDto.noExistBoard();
@@ -108,11 +110,9 @@ public class BoardService {
             // board.setImages(images);
             imageRepository.saveAll(images);
 
-            // 이미지 저장 후, 대표 이미지 설정
-            // if (!images.isEmpty()) {
-            // board.setTitleImage(images.get(0));
-            // }
             boardRepository.save(board);
+
+            // 타이틀 이미지는 게시물을 등록할 때가 아니라 불러올 때 설정하는 걸로!
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -139,6 +139,38 @@ public class BoardService {
             return ResponseDto.databaseError();
         }
         return DeleteBoardResponseDto.success();
+    }
+
+    // 게시물 수정하기
+    public ResponseEntity<? super UpdateBoardResponseDto> updateBoard(@Valid UpdateBoardRequestDto dto,
+            Integer boardNumber) {
+
+        try {
+            Board board = boardRepository.findByBoardNumber(boardNumber);
+            if (board == null) {
+                return UpdateBoardResponseDto.noExistBoard();
+            }
+
+            // board update 하기
+            board.updateBoard(dto);
+
+            // 원래 존재했던 이미지를 다 지우고 다시 꺼낸다.
+            imageRepository.deleteByBoardBoardNumber(boardNumber);
+            List<String> boardImageList = dto.getBoardImageList();
+            List<Image> images = new ArrayList<>();
+
+            for (String imageUrl : boardImageList) {
+                Image image = new Image(board, imageUrl);
+                images.add(image);
+            }
+            imageRepository.saveAll(images);
+            boardRepository.save(board);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return UpdateBoardResponseDto.fail();
+        }
+        return UpdateBoardResponseDto.success();
     }
 
 }

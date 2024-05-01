@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hoya.mannaback.dto.request.PostBoardRequestDto;
+import com.hoya.mannaback.model.request.PostBoardRequestDto;
+import com.hoya.mannaback.model.request.UpdateBoardRequestDto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -57,6 +58,12 @@ public class Board {
         this.writerNickname = dto.getWriterNickname();
         this.writeDatetime = writeDatetime;
 
+    }
+
+    public void updateBoard(UpdateBoardRequestDto dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.writerNickname = dto.getWriterNickname();
     }
 
 }
