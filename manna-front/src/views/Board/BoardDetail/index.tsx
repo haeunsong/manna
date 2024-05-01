@@ -23,6 +23,10 @@ export default function BoardDetail() {
     };
 
     // event handler: 수정 버튼 클릭 이벤트 처리
+    const onUpdateBoard = () => {
+      if (!board || !boardNumber) return;
+      // updateBoardRequest(boardNumber).then(updateBoardResponse);
+    };
 
     // event handler: 삭제 버튼 클릭 이벤트 처리
     const onDeleteBoard = () => {
@@ -94,7 +98,12 @@ export default function BoardDetail() {
             </div>
             {showMore && (
               <div className="board-detail-more-box">
-                <div className="board-detail-update-button">{"수정"}</div>
+                <div
+                  className="board-detail-update-button"
+                  onClick={onUpdateBoard}
+                >
+                  {"수정"}
+                </div>
                 <div className="divider"></div>
                 <div
                   className="board-detail-delete-button"

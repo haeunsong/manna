@@ -5,6 +5,9 @@ import "./style.css";
 interface Props {
   currentPage: number;
   currentSection: number;
+  // Dispatch : 상태 변경 함수
+  // setCurrentPage, setCurrentSection 함수가 Props 로 전달되고,
+  // 이 함수들을 호출하여 상태 변경 가능하다.
   setCurrentPage: Dispatch<SetStateAction<number>>;
   setCurrentSection: Dispatch<SetStateAction<number>>;
 
@@ -62,7 +65,7 @@ export default function Pagination(props: Props) {
       {viewPageList.map((page) => (
         <div
           key={page}
-          className={`pagination-text ${currentPage === page ? "active" : ""}`}
+          className={`pagination-text-${currentPage === page ? "active" : ""}`}
           onClick={() => onPageClickHandler(page)}
         >
           {page}

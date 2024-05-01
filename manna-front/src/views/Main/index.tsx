@@ -23,13 +23,13 @@ export default function Main() {
     viewPageNumberList,
     totalSectionNumber,
     setTotalList,
-  } = usePagination<BoardListItem>(3);
+  } = usePagination<BoardListItem>(6);
 
   const [boards, setBoards] = useState<BoardListItem[]>([]);
 
   useEffect(() => {
     fetchPosts();
-  }, [currentPageNumber, currentSectionNumber]);
+  }, []);
 
   const fetchPosts = async () => {
     try {
