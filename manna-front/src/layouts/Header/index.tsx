@@ -1,6 +1,7 @@
 import {
   BOARD_DETAIL_PATH,
   BOARD_PATH,
+  BOARD_UPDATE_PATH,
   BOARD_WRITE_PATH,
   MAIN_PATH,
   SEARCH_PATH,
@@ -15,15 +16,22 @@ import React, {
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import useBoardStore from "stores/board.store";
-import { fileUploadRequest, postBoardRequest } from "apis";
+import { fileUploadRequest, postBoardRequest, updateBoardRequest } from "apis";
 import axios from "axios";
-import PostBoardRequestDto from "apis/request/board";
 
 import ResponseDto from "apis/response";
-import { PostBoardResponseDto } from "apis/response/board";
+import {
+  PostBoardResponseDto,
+  UpdateBoardResponseDto,
+} from "apis/response/board";
+import { PostBoardRequestDto, UpdateBoardRequestDto } from "apis/request/board";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const { boardNumber } = useParams();
+  const parseBoardNumber = boardNumber as string | number;
+
+  const navigate = useNavigate();
 
   const isMainPage = pathname === MAIN_PATH();
   const isBoardDetailPage = pathname.startsWith(
@@ -32,11 +40,12 @@ const Header = () => {
   const isBoardWritePage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_WRITE_PATH()
   );
+  const isBoardUpdatePage = pathname.startsWith(
+    BOARD_PATH() + "/" + BOARD_UPDATE_PATH(parseBoardNumber)
+  );
   // state: 게시물 상태
   const { title, content, writerNickname, boardImageFileList, resetBoard } =
     useBoardStore();
-
-  const navigate = useNavigate();
 
   const onLogoClick = () => {
     navigate(MAIN_PATH());
@@ -58,6 +67,23 @@ const Header = () => {
     resetBoard();
     navigate(MAIN_PATH());
   };
+  // function :  update board response 처리 함수
+  const updateBoardResponse = (
+    responseBody: UpdateBoardResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+    if (code === "DBE") alert("데이터베이스 오류입니다.");
+    if (code !== "SU") alert("오류발생");
+
+    if (!boardNumber) return;
+    // 글 수정하면 바로 메인 페이지로 가기
+    navigate(MAIN_PATH());
+    // navigate(BOARD_PATH() + "/" + BOARD_DETAIL_PATH(boardNumber), {
+    //   replace: true,
+    // });
+  };
+
   // 글 업로드 버튼 클릭 시
   const onBoardUploadClickHandler = async () => {
     console.log("onBoardUploadClickHandler() 호출!");
@@ -72,14 +98,33 @@ const Header = () => {
       console.log("url  = " + url);
       if (url) boardImageList.push(url);
     }
-    const requestBody: PostBoardRequestDto = {
-      title,
-      content,
-      writerNickname,
-      boardImageList,
-    };
-    console.log("requestBody 넘기자");
-    postBoardRequest(requestBody).then(postBoardResponse);
+
+    /*
+     /board/write 페이지에서는 '글 업로드' 버튼으로,
+     /board/{board} 에서는 수정하기..?
+    
+    */
+    const isWriterpage = pathname === BOARD_PATH() + "/" + BOARD_WRITE_PATH();
+
+    if (isWriterpage) {
+      const requestBody: PostBoardRequestDto = {
+        title,
+        content,
+        writerNickname,
+        boardImageList,
+      };
+
+      postBoardRequest(requestBody).then(postBoardResponse);
+    } else if (isBoardUpdatePage) {
+      if (!boardNumber) return;
+      const requestBody: UpdateBoardRequestDto = {
+        title,
+        content,
+        writerNickname,
+        boardImageList,
+      };
+      updateBoardRequest(boardNumber, requestBody).then(updateBoardResponse);
+    }
   };
 
   const SearchButton = () => {
@@ -157,7 +202,7 @@ const Header = () => {
           {!isBoardWritePage && <SearchButton />}
           {/* <SearchButton /> */}
         </div>
-        {isBoardWritePage ? (
+        {isBoardWritePage || isBoardUpdatePage ? (
           <div className="header-right-box">
             <button onClick={onBoardUploadClickHandler}>글 업로드</button>
           </div>

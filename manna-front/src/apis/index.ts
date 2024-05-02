@@ -1,10 +1,10 @@
 import axios from 'axios';
-import PostBoardRequestDto from './request/board';
+
 
 import ResponseDto from './response';
 import { request } from 'http';
-import { GetBoardResponseDto, PostBoardResponseDto } from './response/board';
-import DeleteBoardResponseDto from './response/board/delete-board.response.dto';
+import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto} from './response/board';
+import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
 
 
 
@@ -38,8 +38,7 @@ export const getBoardDetailRequest = async (boardNumber: undefined | string) => 
 const POST_BOARD_URL = () => `${API_DOMAIN}/board/post`;
 
 export const postBoardRequest = async (requestBody: PostBoardRequestDto) => {
-    console.log("postBoardRequest() 호출!");
-    console.log("requestBody: " + requestBody);
+    console.log("postBoardRequest 호출");
 
     const result = await axios.post(POST_BOARD_URL(), requestBody)
         .then(response => {
@@ -55,7 +54,8 @@ export const postBoardRequest = async (requestBody: PostBoardRequestDto) => {
             console.log("error.response.data:" + error.response.data);
             return responseBody;
         })
-    return result;
+        console.log("글 게시물 post 완료");
+            return result;
 }
 
 const DELETE_BOARD_URL = (boardNumber: number | string) => `${API_DOMAIN}/board/detail/${boardNumber}`;
@@ -73,6 +73,24 @@ export const deleteBoardRequest = async(boardNumber: number | string) => {
         console.log("error.response.data:" + error.response.data);
         return responseBody;
     }
+}
+
+const UPDATE_BOARD_URL = (boardNumber:number | string) => `${ API_DOMAIN}/board/${boardNumber}`;
+// 게시물 수정
+export const updateBoardRequest = async(boardNumber : number | string, requestBody : UpdateBoardRequestDto) => {
+    try {
+        const response = await axios.patch(UPDATE_BOARD_URL(boardNumber), requestBody);
+        const responseBody : UpdateBoardResponseDto= response.data;
+        return responseBody;
+    }catch(error: any) {
+        console.log("error: " + error);
+        if (!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        console.log("error.response.data:" + error.response.data);
+        return responseBody;
+    }
+ 
+    
 }
 
 // http://localhost:4000/file

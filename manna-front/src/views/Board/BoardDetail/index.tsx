@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Board from "types/interface/board.interface";
-import { deleteBoardRequest, getBoardDetailRequest } from "apis";
+import {
+  deleteBoardRequest,
+  getBoardDetailRequest,
+  updateBoardRequest,
+} from "apis";
 import ResponseDto from "apis/response";
-import { MAIN_PATH } from "constant";
+import { MAIN_PATH, BOARD_UPDATE_PATH, BOARD_PATH } from "constant";
 import { GetBoardResponseDto } from "apis/response/board";
 import DeleteBoardResponseDto from "apis/response/board/delete-board.response.dto";
+import { UpdateBoardRequestDto } from "apis/request/board";
 
 export default function BoardDetail() {
   const BoardDetailTop = () => {
@@ -25,7 +30,9 @@ export default function BoardDetail() {
     // event handler: 수정 버튼 클릭 이벤트 처리
     const onUpdateBoard = () => {
       if (!board || !boardNumber) return;
-      // updateBoardRequest(boardNumber).then(updateBoardResponse);
+      navigator(BOARD_PATH() + "/" + BOARD_UPDATE_PATH(boardNumber), {
+        replace: true,
+      });
     };
 
     // event handler: 삭제 버튼 클릭 이벤트 처리
