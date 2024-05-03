@@ -6,6 +6,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+// 여기는 develop -> feautre/user 브랜치다!
 @Data
 @Entity
 public class User {
