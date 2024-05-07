@@ -56,7 +56,7 @@ public class BoardController {
         return response;
     }
 
-    @PatchMapping("/{boardNumber}")
+    @PatchMapping("/update/{boardNumber}")
     public ResponseEntity<? super UpdateBoardResponseDto> updateBoard(
             @RequestBody @Valid UpdateBoardRequestDto requestBody, @PathVariable("boardNumber") Integer boardNumber) {
         ResponseEntity<? super UpdateBoardResponseDto> response = boardService.updateBoard(requestBody, boardNumber);

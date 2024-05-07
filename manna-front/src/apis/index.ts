@@ -1,12 +1,7 @@
 import axios from 'axios';
-
-
 import ResponseDto from './response';
-import { request } from 'http';
 import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto} from './response/board';
 import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
-
-
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = `${DOMAIN}/api/v1`;
@@ -75,7 +70,7 @@ export const deleteBoardRequest = async(boardNumber: number | string) => {
     }
 }
 
-const UPDATE_BOARD_URL = (boardNumber:number | string) => `${ API_DOMAIN}/board/${boardNumber}`;
+const UPDATE_BOARD_URL = (boardNumber:number | string) => `${API_DOMAIN}/board/update/${boardNumber}`;
 // 게시물 수정
 export const updateBoardRequest = async(boardNumber : number | string, requestBody : UpdateBoardRequestDto) => {
     try {
@@ -104,6 +99,7 @@ const FILE_UPLOAD_URL = () => `${FILE_DOMAIN}/upload`;
 const multipartFormData = { headers: { 'Content-Type': 'multipart/form-data' } };
 
 export const fileUploadRequest = async (data: FormData) => {
+    
     const result = await axios.post(FILE_UPLOAD_URL(), data, multipartFormData)
         .then(response => {
             // fileController 보면 문자열로 받아온다.
