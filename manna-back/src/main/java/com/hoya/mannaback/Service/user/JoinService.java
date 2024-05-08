@@ -1,6 +1,6 @@
 package com.hoya.mannaback.Service.user;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hoya.mannaback.entity.User;
@@ -10,12 +10,13 @@ import com.hoya.mannaback.repository.UserRepository;
 @Service
 public class JoinService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public JoinService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    private final PasswordEncoder passwordEncoder;
+
+    public JoinService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void joinProcess(JoinDto joinDto) {
@@ -29,7 +30,7 @@ public class JoinService {
 
         User newUser = new User();
         newUser.setUsername(username);
-        newUser.setPassword(bCryptPasswordEncoder.encode(password));
+        newUser.setPassword(passwordEncoder.encode(password));
         newUser.setRole("ROLE_ADMIN");
 
         userRepository.save(newUser);
