@@ -4,7 +4,8 @@ import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, Updat
 import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
 
 const DOMAIN = 'http://localhost:4000';
-const API_DOMAIN = `${DOMAIN}/api/v1`;
+const API_DOMAIN = '/api/v1';
+// const API_DOMAIN = `${DOMAIN}/api/v1`;
 
 // 특정게시물 조회
 const GET_BOARD_URL = (boardNumber: undefined | string) => `${API_DOMAIN}/board/detail/${boardNumber}`;

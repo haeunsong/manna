@@ -1,4 +1,4 @@
-package com.hoya.mannaback.dto.request;
+package com.hoya.mannaback.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +18,7 @@ public class PostBoardRequestDto {
     @NotBlank
     private String content;
 
-    // @NotBlank
+    @NotBlank
     private String writerNickname;
 
     private List<String> boardImageList = new ArrayList<>();
