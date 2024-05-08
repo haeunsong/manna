@@ -6,10 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.hoya.mannaback.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-    boolean existsByEmail(String email);
-
-    boolean existsByNickname(String nickname);
+    Boolean existsByUsername(String username);
 
 }
