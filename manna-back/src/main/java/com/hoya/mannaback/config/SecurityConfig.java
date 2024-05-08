@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.hoya.mannaback.jwt.JWTUtil;
 import com.hoya.mannaback.jwt.LoginFilter;
 
 @Configuration
@@ -20,10 +21,12 @@ public class SecurityConfig {
 
         // AuthenticationManager 가 인자로 받을 AuthenticationConfiguration 객체 생성자 주입
         private final AuthenticationConfiguration authenticationConfiguration;
+        private final JWTUtil jwtUtil;
 
-        public SecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+        public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
 
                 this.authenticationConfiguration = authenticationConfiguration;
+                this.jwtUtil = jwtUtil;
         }
 
         // AuthenticationManager Bean 등록
@@ -62,7 +65,8 @@ public class SecurityConfig {
                 // 필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager() 메소드에
                 // authenticationConfiguration 객체를 넣어야 함) 따라서 등록 필요
                 http
-                                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)),
+                                .addFilterAt(new LoginFilter(
+                                                authenticationManager(authenticationConfiguration), jwtUtil),
                                                 UsernamePasswordAuthenticationFilter.class);
 
                 // 세션 설정
