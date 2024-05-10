@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoya.mannaback.Service.BoardService;
-import com.hoya.mannaback.dto.request.UpdateBoardRequestDto;
-import com.hoya.mannaback.dto.response.UpdateBoardResponseDto;
 import com.hoya.mannaback.entity.Board;
-import com.hoya.mannaback.dto.request.PostBoardRequestDto;
-import com.hoya.mannaback.dto.response.BoardListView;
-import com.hoya.mannaback.dto.response.DeleteBoardResponseDto;
-import com.hoya.mannaback.dto.response.GetBoardResponseDto;
-import com.hoya.mannaback.dto.response.PostBoardResponseDto;
+import com.hoya.mannaback.model.request.UpdateBoardRequestDto;
+import com.hoya.mannaback.model.response.UpdateBoardResponseDto;
+import com.hoya.mannaback.model.request.PostBoardRequestDto;
+import com.hoya.mannaback.model.response.BoardListView;
+import com.hoya.mannaback.model.response.DeleteBoardResponseDto;
+import com.hoya.mannaback.model.response.GetBoardResponseDto;
+import com.hoya.mannaback.model.response.PostBoardResponseDto;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -56,7 +56,7 @@ public class BoardController {
         return response;
     }
 
-    @PatchMapping("/{boardNumber}")
+    @PatchMapping("/update/{boardNumber}")
     public ResponseEntity<? super UpdateBoardResponseDto> updateBoard(
             @RequestBody @Valid UpdateBoardRequestDto requestBody, @PathVariable("boardNumber") Integer boardNumber) {
         ResponseEntity<? super UpdateBoardResponseDto> response = boardService.updateBoard(requestBody, boardNumber);

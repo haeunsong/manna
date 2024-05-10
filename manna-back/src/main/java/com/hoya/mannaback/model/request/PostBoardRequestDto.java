@@ -1,19 +1,23 @@
-package com.hoya.mannaback.dto.request;
+package com.hoya.mannaback.model.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
-@Data
-public class UpdateBoardRequestDto {
-
+@Getter
+@Setter
+@NoArgsConstructor
+public class PostBoardRequestDto {
     @NotBlank
     private String title;
     @NotBlank
     private String content;
+
     @NotBlank
     private String writerNickname;
 

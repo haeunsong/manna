@@ -4,16 +4,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.hoya.mannaback.dto.request.UpdateBoardRequestDto;
-import com.hoya.mannaback.dto.response.UpdateBoardResponseDto;
 import com.hoya.mannaback.entity.Board;
 import com.hoya.mannaback.entity.Image;
-import com.hoya.mannaback.dto.request.PostBoardRequestDto;
-import com.hoya.mannaback.dto.response.BoardListView;
-import com.hoya.mannaback.dto.response.DeleteBoardResponseDto;
-import com.hoya.mannaback.dto.response.GetBoardResponseDto;
-import com.hoya.mannaback.dto.response.PostBoardResponseDto;
-import com.hoya.mannaback.dto.response.ResponseDto;
+import com.hoya.mannaback.model.request.UpdateBoardRequestDto;
+import com.hoya.mannaback.model.response.UpdateBoardResponseDto;
+import com.hoya.mannaback.model.request.PostBoardRequestDto;
+import com.hoya.mannaback.model.response.BoardListView;
+import com.hoya.mannaback.model.response.DeleteBoardResponseDto;
+import com.hoya.mannaback.model.response.GetBoardResponseDto;
+import com.hoya.mannaback.model.response.PostBoardResponseDto;
+import com.hoya.mannaback.model.response.ResponseDto;
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
 
