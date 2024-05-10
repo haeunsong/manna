@@ -1,4 +1,4 @@
-package com.hoya.mannaback.dto.response;
+package com.hoya.mannaback.model.response;
 
 import com.hoya.mannaback.entity.Image;
 

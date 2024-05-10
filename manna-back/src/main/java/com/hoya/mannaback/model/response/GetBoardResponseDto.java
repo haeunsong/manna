@@ -1,4 +1,4 @@
-package com.hoya.mannaback.dto.response;
+package com.hoya.mannaback.model.response;
 
 import java.util.ArrayList;
 import java.util.List;
