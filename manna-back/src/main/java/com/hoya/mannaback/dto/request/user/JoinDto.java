@@ -1,4 +1,4 @@
-package com.hoya.mannaback.model.request.user;
+package com.hoya.mannaback.dto.request.user;
 
 import lombok.Getter;
 import lombok.Setter;

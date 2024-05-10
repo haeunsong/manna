@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hoya.mannaback.model.request.PostBoardRequestDto;
-import com.hoya.mannaback.model.request.UpdateBoardRequestDto;
+import com.hoya.mannaback.dto.request.UpdateBoardRequestDto;
+import com.hoya.mannaback.dto.request.PostBoardRequestDto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

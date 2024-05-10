@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hoya.mannaback.entity.User;
-import com.hoya.mannaback.model.request.user.JoinDto;
+import com.hoya.mannaback.dto.request.user.JoinDto;
 import com.hoya.mannaback.repository.UserRepository;
 
 @Service

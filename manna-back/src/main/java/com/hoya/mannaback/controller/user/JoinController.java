@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hoya.mannaback.Service.user.JoinService;
-import com.hoya.mannaback.model.request.user.JoinDto;
+import com.hoya.mannaback.dto.request.user.JoinDto;
 
 @Controller
 @ResponseBody

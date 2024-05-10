@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.hoya.mannaback.model.request.user.CustomUserDetails;
+import com.hoya.mannaback.dto.request.user.CustomUserDetails;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,8 +61,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
 
+        String role = auth.getAuthority();
         // 토큰 받아오기
-        String token = jwtUtil.createJwt(username, username, 60 * 60 * 10L);
+        String token = jwtUtil.createJwt(username, role, 60 * 60 * 10L);
         response.addHeader("Authorization", "Bearer " + token);
     }
     // 그러면 이제 로그인 하면 응답 헤더에 jwt 토큰이 발급된 것을 확인할 수 있다.
