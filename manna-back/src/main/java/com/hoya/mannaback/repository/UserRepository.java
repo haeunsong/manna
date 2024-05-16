@@ -8,8 +8,4 @@ import com.hoya.mannaback.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-    boolean existsByEmail(String email);
-
-    boolean existsByNickname(String nickname);
-
 }

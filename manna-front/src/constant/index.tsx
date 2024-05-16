@@ -1,5 +1,5 @@
 export const MAIN_PATH = () => "/"; // 여기에 카드형식으로 글 목록보임
-export const AUTH_PATH = () => "/auth";
+export const AUTH_PATH = () => "/login";
 export const SEARCH_PATH = (searchWord: string) => `search/${searchWord}`;
 //export const USER_PATH = (userEmail: string) => `/user/${userEmail}`;
 export const BOARD_PATH = () => "/board";

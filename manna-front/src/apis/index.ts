@@ -2,6 +2,7 @@ import axios from 'axios';
 import ResponseDto from './response';
 import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto} from './response/board';
 import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
+import BoardListItem from 'types/interface/board-list-item.interface';
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
@@ -27,8 +28,6 @@ export const getBoardDetailRequest = async (boardNumber: undefined | string) => 
         })
     return result;
 }
-
-// 백엔드에서 게시물 목록 조회
 
 // http://localhost:4000/api/v1/board/post
 const POST_BOARD_URL = () => `${API_DOMAIN}/board/post`;

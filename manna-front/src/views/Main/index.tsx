@@ -9,6 +9,9 @@ import BoardItem from "components/BoardItem/Index";
 import Pagination from "components/Pagination";
 import usePagination from "hooks/pagination.hook";
 
+import ResponseDto from "apis/response";
+import { GetBoardResponseDto } from "apis/response/board";
+
 // Main 페이지에 게시글 전체 목록 조회
 // boardList
 export default function Main() {
@@ -28,18 +31,27 @@ export default function Main() {
   const [boards, setBoards] = useState<BoardListItem[]>([]);
 
   useEffect(() => {
-    fetchPosts();
+    fetchPostsRequest(boards);
   }, []);
 
-  const fetchPosts = async () => {
+  // 백엔드에서 전체 게시물 목록 조회
+  const fetchPostsRequest = async (boards: BoardListItem[]) => {
     try {
       const response = await axios.get(
         "http://localhost:4000/api/v1/board/list"
       );
+      const responseBody: GetBoardResponseDto = response.data;
       setBoards(response.data);
       setTotalList(response.data);
-    } catch (error) {
+
+      return responseBody;
+    } catch (error: any) {
       console.error("전체 게시물 불러오기에 실패했습니다.", error);
+
+      if (!error.response) return null;
+      const responseBody: GetBoardResponseDto = error.response.data;
+      console.log("error.response.data:" + error.response.data);
+      return responseBody;
     }
   };
 
