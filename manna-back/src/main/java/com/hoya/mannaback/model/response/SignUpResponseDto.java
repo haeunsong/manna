@@ -1,20 +1,24 @@
 package com.hoya.mannaback.model.response;
 
+import org.eclipse.angus.mail.imap.protocol.ID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.hoya.mannaback.common.ResponseCode;
 import com.hoya.mannaback.common.ResponseMessage;
 
-public class UpdateBoardResponseDto extends ResponseDto {
+import lombok.Getter;
 
-    public UpdateBoardResponseDto() {
+@Getter
+public class SignUpResponseDto extends ResponseDto {
+
+    public SignUpResponseDto() {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
     }
 
-    public static ResponseEntity<UpdateBoardResponseDto> success() {
-        UpdateBoardResponseDto result = new UpdateBoardResponseDto();
+    public static ResponseEntity<SignUpResponseDto> success() {
+        SignUpResponseDto result = new SignUpResponseDto();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -24,9 +28,9 @@ public class UpdateBoardResponseDto extends ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
     }
 
-    public static ResponseEntity<ResponseDto> noExistBoard() {
-        ResponseDto result = new ResponseDto(ResponseCode.NOT_EXISTED_BOARD,
-                ResponseMessage.NOT_EXISTED_BOARD);
+    public static ResponseEntity<ResponseDto> duplicateEmail() {
+        ResponseDto result = new ResponseDto(ResponseCode.DUPLICATE_EMAIL,
+                ResponseMessage.DUPLICATE_EMAIL);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
     }
 

@@ -3,10 +3,9 @@ package com.hoya.mannaback.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hoya.mannaback.entity.User;
+import com.hoya.mannaback.entity.Search;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface SearchRepository extends JpaRepository<Search, Integer> {
 
-    boolean existsByEmail(String email);
 }

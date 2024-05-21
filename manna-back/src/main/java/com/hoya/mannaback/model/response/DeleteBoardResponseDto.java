@@ -3,8 +3,8 @@ package com.hoya.mannaback.model.response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.hoya.common.ResponseCode;
-import com.hoya.common.ResponseMessage;
+import com.hoya.mannaback.common.ResponseCode;
+import com.hoya.mannaback.common.ResponseMessage;
 
 import lombok.Getter;
 
