@@ -38,8 +38,8 @@ public class AuthService {
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
 
+            // 새로운 user 에 dto 정보를 저장한다.
             User newUser = new User(dto);
-
             userRepository.save(newUser);
 
         } catch (Exception e) {

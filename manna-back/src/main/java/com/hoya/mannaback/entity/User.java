@@ -8,8 +8,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class User {
 
@@ -17,7 +19,7 @@ public class User {
     String email;
     String password;
     String nickName;
-    String userType; // 괸리자 or null
+    String role; // 괸리자 or null
 
     // user - board 1:N
     // @ManyToOne
@@ -28,7 +30,7 @@ public class User {
         this.email = dto.getEmail();
         this.password = dto.getPassword();
         this.nickName = dto.getNickname();
-        this.userType = dto.getUserType();
+        this.role = dto.getRole();
     }
 
 }
