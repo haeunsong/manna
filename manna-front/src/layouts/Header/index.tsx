@@ -33,7 +33,7 @@ const Header = () => {
   const parseBoardNumber = boardNumber as string | number;
 
   const navigate = useNavigate();
-
+  const isAuthPage = pathname === AUTH_PATH();
   const isMainPage = pathname === MAIN_PATH();
   const isBoardDetailPage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_DETAIL_PATH("")
@@ -210,13 +210,23 @@ const Header = () => {
           </div>
           <div className="header-logo">{"Manna"}</div>
         </div>
-        <div className="header-middle-box">
-          {/* {(isMainPage || isBoardDetailPage) && <SearchButton />}
-           */}
-          {!isBoardWritePage && <SearchButton />}
-          {/* <SearchButton /> */}
-        </div>
-        {isBoardWritePage || isBoardUpdatePage ? (
+
+        {isAuthPage && (
+          <h1 style={{ color: "red" }}>
+            관리자 가입 페이지 입니다. 관리자가 아닌 분은 나가주시기 바랍니다.
+          </h1>
+        )}
+
+        {!isAuthPage && (
+          <div className="header-middle-box">
+            {/* {(isMainPage || isBoardDetailPage) && <SearchButton />}
+             */}
+            {!isBoardWritePage && <SearchButton />}
+            {/* <SearchButton /> */}
+          </div>
+        )}
+
+        {isAuthPage ? null : isBoardWritePage || isBoardUpdatePage ? (
           <div className="header-right-box">
             <button onClick={onBoardUploadClickHandler}>글 업로드</button>
           </div>

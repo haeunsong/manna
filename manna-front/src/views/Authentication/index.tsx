@@ -1,8 +1,12 @@
 import React, { ChangeEvent, useState } from "react";
 import "./style.css";
+import { SignUpRequestDto } from "apis/request/auth";
+import { signUpRequest } from "apis";
+import { SignUpResponseDto } from "apis/response/auth";
+import ResponseDto from "apis/response";
 
 export default function Authentication() {
-  const [view, setView] = useState<"sign-in" | "sign-up">("sign-up");
+  const [view, setView] = useState<"sign-in" | "sign-up">("sign-in");
 
   // Sign in
   const SignInCard = () => {
@@ -61,7 +65,7 @@ export default function Authentication() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
-    const [authNumber, setAuthNumber] = useState("");
+    const [nickname, setNickname] = useState("");
 
     const onEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
@@ -72,11 +76,51 @@ export default function Authentication() {
     const onCheckPasswordChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setCheckPassword(e.target.value);
     };
-    const onAuthNumberChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      setAuthNumber(e.target.value);
+    const onNicknameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      setNickname(e.target.value);
     };
 
     const onSignInClick = () => {
+      setView("sign-in");
+    };
+
+    const onClickSignUpHandler = () => {
+      // 회원가입 로직
+      // 비밀번호 일치한지 확인
+      const isEqualPassword = password === checkPassword;
+      if (!isEqualPassword) {
+        alert("비밀번호가 일치하지 않습니다.");
+        setPassword("");
+        setCheckPassword("");
+      }
+      const requestBody: SignUpRequestDto = {
+        email,
+        password,
+        nickname,
+        role: "ROLE_ADMIN", // 관리자 역할 부여
+      };
+
+      signUpRequest(requestBody).then(signUpResponse);
+    };
+    // function: signUpResponse 처리 함수
+    const signUpResponse = (
+      responseBody: SignUpResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) {
+        alert("네트워크 이상입니다.");
+        return;
+      }
+      const { code } = responseBody;
+
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code === "SU") {
+        alert(
+          "정상적으로 회원가입이 완료되었습니다. 다시 로그인 해주시길 바랍니다. "
+        );
+      } else {
+        alert("오류발생");
+      }
+
       setView("sign-in");
     };
     return (
@@ -111,17 +155,17 @@ export default function Authentication() {
                 onChange={onCheckPasswordChangeHandler}
                 placeholder="비밀번호를 다시 입력하세요."
               />
-              <div className="input-label">인증번호</div>
+              <div className="input-label">닉네임</div>
               <input
-                name="authNumber"
+                name="nickname"
                 type="text"
-                value={authNumber}
-                onChange={onAuthNumberChangeHandler}
-                placeholder="비밀번호를 다시 입력하세요."
+                value={nickname}
+                onChange={onNicknameChangeHandler}
+                placeholder="닉네임을 입력하세요."
               />
             </div>
             <div className="auth-card-bottom">
-              <button>회원가입</button>
+              <button onClick={onClickSignUpHandler}>회원가입</button>
               <div className="question">
                 이미 계정이 있으신가요?{" "}
                 <span onClick={onSignInClick}> 로그인</span>
