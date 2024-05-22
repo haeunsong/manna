@@ -1,4 +1,5 @@
 import {
+  AUTH_PATH,
   BOARD_DETAIL_PATH,
   BOARD_PATH,
   BOARD_UPDATE_PATH,
@@ -50,6 +51,15 @@ const Header = () => {
   const onLogoClick = () => {
     navigate(MAIN_PATH());
   };
+  const onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const userConfirmed = window.confirm(
+      "관리자 로그인 페이지로 이동하시겠습니까?"
+    );
+    if (userConfirmed) {
+      navigate(AUTH_PATH());
+    }
+  };
   // 글 작성하기 버튼 클릭 시
   const onBoardWriteClickHandler = () => {
     navigate(BOARD_PATH() + "/" + BOARD_WRITE_PATH());
@@ -87,10 +97,10 @@ const Header = () => {
   // 글 업로드 버튼 클릭 시
   const onBoardUploadClickHandler = async () => {
     console.log("onBoardUploadClickHandler() 호출!");
+
     const boardImageList: string[] = [];
     // 동기 처리 해야함
     for (const file of boardImageFileList) {
-      console.log("image for문 으로 들어옴!");
       const data = new FormData();
       data.append("file", file);
       // data 전달
@@ -190,7 +200,11 @@ const Header = () => {
   return (
     <div id="header">
       <div className="header-container">
-        <div className="header-left-box" onClick={onLogoClick}>
+        <div
+          className="header-left-box"
+          onClick={onLogoClick}
+          onContextMenu={onContextMenu}
+        >
           <div className="icon-box">
             <div className="icon logo-icon"></div>
           </div>
