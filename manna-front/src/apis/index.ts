@@ -3,8 +3,9 @@ import ResponseDto from './response';
 import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto} from './response/board';
 import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
 import BoardListItem from 'types/interface/board-list-item.interface';
-import { SignUpRequestDto } from './request/auth';
+import { SignInRequestDto, SignUpRequestDto } from './request/auth';
 import { SignUpResponseDto } from './response/auth';
+import SignInResponseDto from './response/auth/sign-in.response.dto';
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
@@ -27,7 +28,21 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
         }
     };
 }
-
+const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`
+export const signInRequest = async (requestBody: SignInRequestDto) => {
+    try {
+        const response = await axios.post(SIGN_IN_URL(),requestBody);
+        const responseBody: SignInResponseDto = response.data;
+        return responseBody;
+    }catch(error){
+        if (axios.isAxiosError(error)) {
+            const responseBody: ResponseDto = error.response?.data;
+            return responseBody;
+        } else {
+            throw error; // AxiosError가 아닌 다른 타입의 오류는 다시 던짐
+        }
+    };
+}
 // 특정게시물 조회
 const GET_BOARD_URL = (boardNumber: undefined | string) => `${API_DOMAIN}/board/detail/${boardNumber}`;
 

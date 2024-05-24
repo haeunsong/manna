@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import "./style.css";
-import { SignUpRequestDto } from "apis/request/auth";
-import { signUpRequest } from "apis";
+import { SignInRequestDto, SignUpRequestDto } from "apis/request/auth";
+import { signInRequest, signUpRequest } from "apis";
 import { SignUpResponseDto } from "apis/response/auth";
 import ResponseDto from "apis/response";
 
@@ -22,6 +22,12 @@ export default function Authentication() {
     const onSignUpClick = () => {
       setView("sign-up");
     };
+    const onClickSignInHandler = () => {
+      // 로그인 로직
+      const requestBody: SignInRequestDto = { email, password };
+      signInRequest(requestBody).then(signInResponse);
+    };
+    const signInResponse = () => {};
     return (
       <div>
         <div className="auth-card">
@@ -48,7 +54,7 @@ export default function Authentication() {
               />
             </div>
             <div className="auth-card-bottom">
-              <button>로그인</button>
+              <button onClick={onClickSignInHandler}>로그인</button>
               <div className="question">
                 신규 사용자이신가요?{" "}
                 <span onClick={onSignUpClick}> 회원가입</span>

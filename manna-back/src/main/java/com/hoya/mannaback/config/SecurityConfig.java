@@ -11,14 +11,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.hoya.mannaback.filter.JwtAuthenticationFilter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,10 +33,6 @@ public class SecurityConfig {
                 // csrf disable
                 http
                                 .csrf((auth) -> auth.disable());
-
-                // From 로그인 방식 disable
-                http
-                                .formLogin((auth) -> auth.disable());
 
                 // http basic 인증 방식 disable
                 http
@@ -39,7 +42,7 @@ public class SecurityConfig {
                 http
                                 .authorizeHttpRequests(auth -> {
                                         try {
-                                                auth.requestMatchers(HttpMethod.GET, "/api/v1/board/list",
+                                                auth.requestMatchers(HttpMethod.GET, "/", "/api/v1/board/list",
                                                                 "/api/v1/board/detail/**", "/file/**")
                                                                 .permitAll()
                                                                 .requestMatchers(HttpMethod.POST, "/api/v1/board/post",
@@ -65,12 +68,13 @@ public class SecurityConfig {
                                                 e.printStackTrace();
                                         }
                                 });
-                // 항상 허용되는 요청
 
                 // 세션 설정
                 http
                                 .sessionManagement((session) -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+                http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }

@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoya.mannaback.Service.AuthService;
+import com.hoya.mannaback.model.request.SignInRequestDto;
 import com.hoya.mannaback.model.request.SignUpRequestDto;
 import com.hoya.mannaback.model.response.SignUpResponseDto;
+import com.hoya.mannaback.model.response.SignInResponseDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,12 @@ public class AdminController {
         ResponseEntity<? super SignUpResponseDto> response = authService.signUp(requestBody);
         return response;
 
+    }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<? super SignInResponseDto> signIn(@RequestBody @Valid SignInRequestDto requestBody) {
+        ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody);
+        return response;
     }
 
 }

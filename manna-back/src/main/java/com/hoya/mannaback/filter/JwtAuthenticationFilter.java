@@ -19,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+// 요청을 필터링하여 JWT 토큰을 검증하는 역할을 한다.
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -28,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtProvider = jwtProvider;
     }
 
+    // 요청의 헤더에서 Authorization 헤더를 읽어 Bearer 토큰을 추출한다.
     private String parseBearerToken(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         boolean hasAuthorization = StringUtils.hasText(authorization);
@@ -47,6 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * controller 에 들어오기 전에 필터에서 거친다. 필터에서 Jwt 검증하고, subject 에서 email 을 꺼낸다.
      * 외부의 컨텍스트에 이메일을 담아놓고 언제든지 꺼내서 사용한다.
      */
+    // 각 요청에 대해 JWT 토큰을 검증하고, 유효한 경우 해당 사용자를 인증
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
