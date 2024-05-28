@@ -25,6 +25,8 @@ public class JwtProvider {
                 .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredDate)
                 .compact();
 
+        System.out.println("Created JWT: " + jwt);
+
         return jwt;
 
     }
@@ -35,7 +37,7 @@ public class JwtProvider {
         try {
             claims = Jwts.parser().setSigningKey(secretKey)
                     .parseClaimsJws(jwt).getBody();
-
+            System.out.println("Validated JWT, Subject: " + claims.getSubject()); // 디버깅 로그 추가
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;

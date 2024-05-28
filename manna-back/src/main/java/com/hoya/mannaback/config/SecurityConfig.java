@@ -43,11 +43,13 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(auth -> {
                                         try {
                                                 auth.requestMatchers(HttpMethod.GET, "/", "/api/v1/board/list",
-                                                                "/api/v1/board/detail/**", "/file/**")
+                                                                "/api/v1/board/detail/**", "/file/**",
+                                                                "/api/v1/user/**")
                                                                 .permitAll()
                                                                 .requestMatchers(HttpMethod.POST, "/api/v1/board/post",
                                                                                 "/api/v1/auth/sign-up",
                                                                                 "/api/v1/auth/sign-in",
+
                                                                                 "/file/upload")
 
                                                                 .permitAll()
