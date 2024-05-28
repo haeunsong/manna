@@ -32,6 +32,15 @@ const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`
 export const signInRequest = async (requestBody: SignInRequestDto) => {
     try {
         const response = await axios.post(SIGN_IN_URL(),requestBody);
+        const token = response.data.token;
+        if(token) {
+            localStorage.setItem('token', token);
+            console.log("Token stored : ",token);
+        }else {
+            console.log(
+                "No token received"
+            );
+        }
         const responseBody: SignInResponseDto = response.data;
         return responseBody;
     }catch(error){
@@ -43,6 +52,10 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
         }
     };
 }
+
+// 로그인 완료시 관리자 페이지
+const GET_ADMIN_PAGE_URL = `${API_DOMAIN}/admin/index`;
+
 // 특정게시물 조회
 const GET_BOARD_URL = (boardNumber: undefined | string) => `${API_DOMAIN}/board/detail/${boardNumber}`;
 

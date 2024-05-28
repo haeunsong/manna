@@ -1,0 +1,27 @@
+#wrapper {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid gray;
+    padding: 40px;
+
+    width: 500px;
+    margin:auto;
+}
+.user-email {
+    display:flex;
+    padding: 2px;
+ 
+    font-weight:400;
+    line-height: 140%;
+
+}
+.label {
+    font-size: 20px; 
+    
+}
+.info {
+     font-size: 18px;
+}

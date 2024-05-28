@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import {
+  ADMIN_PAGE_PATH,
   AUTH_PATH,
   BOARD_DETAIL_PATH,
   BOARD_PATH,
@@ -11,7 +12,6 @@ import {
 } from "constant";
 
 import Authentication from "views/Authentication";
-import User from "views/User";
 import BoardWrite from "views/Board/BoardWrite";
 // import BoardDetail from "views/Board/BoardDetail";
 import BoardUpdate from "views/Board/BoardUpdate";
@@ -19,6 +19,7 @@ import Main from "views/Main";
 import Header from "layouts/Header";
 import Container from "layouts/Container";
 import BoardDetail from "views/Board/BoardDetail";
+import User from "components/User";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         {/* BoardList */}
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
+        <Route path={ADMIN_PAGE_PATH()} element={<User />} />
 
         <Route path={BOARD_PATH()}>
           {/* /board/write */}

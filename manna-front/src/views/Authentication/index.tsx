@@ -4,8 +4,12 @@ import { SignInRequestDto, SignUpRequestDto } from "apis/request/auth";
 import { signInRequest, signUpRequest } from "apis";
 import { SignUpResponseDto } from "apis/response/auth";
 import ResponseDto from "apis/response";
+import SignInResponseDto from "apis/response/auth/sign-in.response.dto";
+import { useNavigate } from "react-router-dom";
+import { ADMIN_PAGE_PATH } from "constant";
 
 export default function Authentication() {
+  const navigate = useNavigate();
   const [view, setView] = useState<"sign-in" | "sign-up">("sign-in");
 
   // Sign in
@@ -27,7 +31,25 @@ export default function Authentication() {
       const requestBody: SignInRequestDto = { email, password };
       signInRequest(requestBody).then(signInResponse);
     };
-    const signInResponse = () => {};
+    // function: signInResponse 처리 함수
+    const signInResponse = (
+      responseBody: SignInResponseDto | ResponseDto | null
+    ) => {
+      if (!responseBody) {
+        alert("네트워크 이상입니다.");
+        return;
+      }
+      const { code } = responseBody;
+
+      if (code === "DBE") alert("데이터베이스 오류입니다.");
+      if (code === "SU") {
+        alert("로그인 완료!");
+      } else {
+        alert("오류발생");
+      }
+      // /admin/index
+      navigate(ADMIN_PAGE_PATH());
+    };
     return (
       <div>
         <div className="auth-card">
