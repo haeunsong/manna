@@ -15,6 +15,7 @@ import { UpdateBoardRequestDto } from "apis/request/board";
 
 export default function BoardDetail() {
   const BoardDetailTop = () => {
+    const [isAdmin, setIsAmdin] = useState(false);
     // state: more 버튼 상태
     const [showMore, setShowMore] = useState(false);
     // state: board
@@ -79,11 +80,20 @@ export default function BoardDetail() {
     };
 
     useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        setIsAmdin(true);
+      }
       if (!boardNumber) {
         alert("해당 게시물이 존재하지 않습니다.");
       }
       getBoardDetailRequest(boardNumber).then(getBoardResponse);
     }, [boardNumber]);
+
+    const adminNicknameStyle = {
+      backgroundColor:
+        board?.writerNickname === "관리자" ? "	#ff00b4" : "#7fffd4",
+    };
 
     return (
       <div id="board-detail-top">
@@ -92,7 +102,10 @@ export default function BoardDetail() {
           <div className="board-detail-title">{board?.title}</div>
           <div className="board-detail-subbox">
             <div className="board-detail-write-info-box">
-              <div className="board-detail-writer-nickname">
+              <div
+                className="board-detail-writer-nickname"
+                style={adminNicknameStyle}
+              >
                 {board?.writerNickname}
               </div>
               <div className="board-detail-info-divider">{"|"}</div>

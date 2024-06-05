@@ -3,6 +3,9 @@ import "./style.css";
 import useBoardStore from "stores/board.store";
 
 export default function BoardWrite() {
+  // state: 관리자 유무 확인
+  const [isAdmin, setIsAmdin] = useState(false);
+
   // state: 닉네임 영역 요소 참조 상태
   const writerNicknameRef = useRef<HTMLInputElement | null>(null);
   // state: 제목 영역 요소 참조 상태
@@ -84,6 +87,10 @@ export default function BoardWrite() {
   // effect: 마운트시 실행할 함수
   useEffect(() => {
     resetBoard();
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAmdin(true);
+    }
   }, []);
 
   return (
@@ -94,7 +101,7 @@ export default function BoardWrite() {
             <input
               ref={writerNicknameRef}
               className="board-write-nickname"
-              placeholder="닉네임을 입력해주세요."
+              placeholder={"닉네임을 입력해주세요."}
               value={writerNickname}
               onChange={onWriterNicknameChangeHandler}
             ></input>
@@ -144,25 +151,6 @@ export default function BoardWrite() {
                 </div>
               </div>
             ))}
-
-            {/* <div className="board-write-image-box">
-              <img
-                className="board-write-image"
-                src="https://img.freepik.com/premium-photo/modern-city_637484-170.jpg?w=740"
-              />
-              <div className="icon-button image-close">
-                <div className="icon close-icon"></div>
-              </div>
-            </div>
-            <div className="board-write-image-box">
-              <img
-                className="board-write-image"
-                src="https://img.freepik.com/free-photo/beautiful-shot-of-colorful-apartment-buildings-on-a-rocky-hill-on-the-seashore-under-the-blue-sky_181624-7318.jpg?w=1380&t=st=1711285811~exp=1711286411~hmac=7451fd723e618757ca85521fbc4083003f5bbb18d6579e99d54bd9e5895a4d09"
-              />
-              <div className="icon-button image-close">
-                <div className="icon close-icon"></div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

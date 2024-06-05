@@ -34,9 +34,6 @@ export default function User() {
 
       const responseBody: GetSignInUserResponseDto = response.data;
       setUser(responseBody);
-
-      console.log("response: ", response);
-      console.log("responseBody: ", responseBody);
     } catch (error: any) {
       alert("유저 정보 불러오기에 실패했습니다.");
       if (!error.response) return null;
@@ -71,7 +68,10 @@ export default function User() {
           </div>
         </div>
       ) : (
-        <div> 유저가 존재하지 않습니다.</div>
+        <div>
+          {" "}
+          유저가 존재하지 않습니다. 관리자인 경우 관리자로 로그인 하십시오.
+        </div>
       )}
     </div>
   );

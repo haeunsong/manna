@@ -23,6 +23,9 @@ export default function BoardItem({ boardListItem }: Props) {
   const onMoveToDetailPageClickHandler = () => {
     navigate(BOARD_PATH() + "/" + BOARD_DETAIL_PATH(boardNumber));
   };
+  const adminNicknameStyle = {
+    color: writerNickname === "관리자" ? "red" : "black",
+  };
 
   return (
     <div className="board-list-item">
@@ -32,7 +35,9 @@ export default function BoardItem({ boardListItem }: Props) {
       >
         {/* top 부분 */}
         <div className="board-list-item-top">
-          <div className="board-list-item-nickname">{writerNickname}</div>
+          <div className="board-list-item-nickname" style={adminNicknameStyle}>
+            {writerNickname}
+          </div>
           <div className="board-list-item-write-datetime">{writeDatetime}</div>
         </div>
         {/* middle 부분 */}

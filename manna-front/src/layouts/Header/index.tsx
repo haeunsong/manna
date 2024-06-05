@@ -1,4 +1,5 @@
 import {
+  ADMIN_PAGE_PATH,
   AUTH_PATH,
   BOARD_DETAIL_PATH,
   BOARD_PATH,
@@ -14,6 +15,7 @@ import React, {
   KeyboardEvent,
   useEffect,
 } from "react";
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import useBoardStore from "stores/board.store";
@@ -32,9 +34,19 @@ const Header = () => {
   const { boardNumber } = useParams();
   const parseBoardNumber = boardNumber as string | number;
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAdmin(true);
+    }
+  });
+  // 현재 로그인 된 상태인지 아닌지 확인 용도
+
   const navigate = useNavigate();
   const isAuthPage = pathname === AUTH_PATH();
   const isMainPage = pathname === MAIN_PATH();
+  const isAdminIndexPage = pathname === ADMIN_PAGE_PATH();
   const isBoardDetailPage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_DETAIL_PATH("")
   );
@@ -197,6 +209,12 @@ const Header = () => {
       </div>
     );
   };
+
+  const onLogoutClickHandler = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+    setIsAdmin(false);
+  };
   return (
     <div id="header">
       <div className="header-container">
@@ -233,6 +251,17 @@ const Header = () => {
         ) : (
           <div className="header-right-box">
             <button onClick={onBoardWriteClickHandler}>글 작성하기</button>
+          </div>
+        )}
+
+        {!isAdmin ? null : isAdminIndexPage ? (
+          <button onClick={onLogoutClickHandler}>로그아웃</button>
+        ) : (
+          <div className="icon-box">
+            <div
+              className="icon user-icon"
+              onClick={() => navigate("/admin/index")}
+            ></div>
           </div>
         )}
       </div>

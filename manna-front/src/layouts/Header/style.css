@@ -79,3 +79,13 @@ button:hover {
     background-color: rgba(0,0,0,0.3);
     width: 120px;
 }
+.admin {
+    color: red;
+    font-size: 20px;
+    font-weight: 600;
+}
+.admin:hover {
+    cursor: pointer;
+   
+   
+}
