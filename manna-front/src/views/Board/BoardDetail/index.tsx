@@ -30,6 +30,10 @@ export default function BoardDetail() {
 
     // event handler: 수정 버튼 클릭 이벤트 처리
     const onUpdateBoard = () => {
+      if (!isAdmin) {
+        alert("글 수정은 관리자만 가능합니다.");
+        return;
+      }
       if (!board || !boardNumber) return;
       navigator(BOARD_PATH() + "/" + BOARD_UPDATE_PATH(boardNumber), {
         replace: true,

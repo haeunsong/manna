@@ -6,6 +6,8 @@ import BoardListItem from 'types/interface/board-list-item.interface';
 import { SignInRequestDto, SignUpRequestDto } from './request/auth';
 import { SignUpResponseDto } from './response/auth';
 import SignInResponseDto from './response/auth/sign-in.response.dto';
+import { useNavigate } from 'react-router-dom';
+import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
@@ -92,6 +94,7 @@ export const postBoardRequest = async (requestBody: PostBoardRequestDto) => {
         .catch(error => {
             // 존재하지 않는다면
             console.log("error: " + error);
+            
             if (!error.response) return null;
             const responseBody: ResponseDto = error.response.data;
             console.log("error.response.data:" + error.response.data);
@@ -105,6 +108,8 @@ const DELETE_BOARD_URL = (boardNumber: number | string) => `${API_DOMAIN}/board/
 
 // 게시물 삭제 
 export const deleteBoardRequest = async(boardNumber: number | string) => {
+
+    
     const token = localStorage.getItem('token');
     const config: AxiosRequestConfig = {
         headers: {
@@ -118,6 +123,10 @@ export const deleteBoardRequest = async(boardNumber: number | string) => {
         return responseBody;
     }catch(error: any) {
         console.log("error: " + error);
+        if(axios.isAxiosError(error) && error.response?.status === 403) {
+            alert("글 삭제는 관리자만 가능합니다.");
+            
+        }
         if (!error.response) return null;
         const responseBody: ResponseDto = error.response.data;
         console.log("error.response.data:" + error.response.data);
@@ -141,6 +150,9 @@ export const updateBoardRequest = async(boardNumber : number | string, requestBo
         return responseBody;
     }catch(error: any) {
         console.log("error: " + error);
+        if(axios.isAxiosError(error) && error.response?.status === 403) {
+            alert("글 수정은 관리자만 가능합니다.");
+        }
         if (!error.response) return null;
         const responseBody: ResponseDto = error.response.data;
         console.log("error.response.data:" + error.response.data);
