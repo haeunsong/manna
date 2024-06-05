@@ -61,6 +61,7 @@ public class AuthService {
         try {
             // 해당 이메일로 유저를 찾아오고
             String email = dto.getEmail();
+
             User user = userRepository.findByEmail(email);
             if (user == null)
                 return SignInResponseDto.signInFailed();
@@ -73,7 +74,7 @@ public class AuthService {
                 return SignInResponseDto.signInFailed();
 
             // 토큰 생성
-            token = jwtProvider.create(email);
+            token = jwtProvider.create(email, "ROLE_ADMIN");
 
         } catch (Exception e) {
             e.printStackTrace();

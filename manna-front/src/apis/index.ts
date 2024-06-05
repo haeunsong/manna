@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import ResponseDto from './response';
 import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto} from './response/board';
 import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
@@ -105,8 +105,15 @@ const DELETE_BOARD_URL = (boardNumber: number | string) => `${API_DOMAIN}/board/
 
 // 게시물 삭제 
 export const deleteBoardRequest = async(boardNumber: number | string) => {
+    const token = localStorage.getItem('token');
+    const config: AxiosRequestConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }) // 토큰이 있는 경우에만 설정
+        }
+    };
     try {
-        const response = await axios.delete(DELETE_BOARD_URL(boardNumber));
+        const response = await axios.delete(DELETE_BOARD_URL(boardNumber),config);
         const responseBody: DeleteBoardResponseDto = response.data;
         return responseBody;
     }catch(error: any) {
@@ -121,8 +128,15 @@ export const deleteBoardRequest = async(boardNumber: number | string) => {
 const UPDATE_BOARD_URL = (boardNumber:number | string) => `${API_DOMAIN}/board/update/${boardNumber}`;
 // 게시물 수정
 export const updateBoardRequest = async(boardNumber : number | string, requestBody : UpdateBoardRequestDto) => {
+    const token = localStorage.getItem('token');
+    const config: AxiosRequestConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }) // 토큰이 있는 경우에만 설정
+        }
+    };
     try {
-        const response = await axios.patch(UPDATE_BOARD_URL(boardNumber), requestBody);
+        const response = await axios.patch(UPDATE_BOARD_URL(boardNumber), requestBody,config);
         const responseBody : UpdateBoardResponseDto= response.data;
         return responseBody;
     }catch(error: any) {

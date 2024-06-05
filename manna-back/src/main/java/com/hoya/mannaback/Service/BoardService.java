@@ -2,6 +2,8 @@ package com.hoya.mannaback.Service;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.hoya.mannaback.entity.Board;
@@ -92,13 +94,27 @@ public class BoardService {
      */
     public ResponseEntity<? super PostBoardResponseDto> postBoard(@Valid PostBoardRequestDto dto) {
         try {
+
             // auth 기능 없이 게시물 작성시에 닉네임 기재
             // board 만들어서 db에 저장
             Board board = new Board(dto);
 
-            // // int boardNumber = board.getBoardNumber();
-            // List<String> boardImageList = dto.getBoardImageList();
-            // List<Image> images = new ArrayList<>();
+            // 현재 사용자 정보 가져오기
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            // 관리자인 경우
+            if (authentication != null && authentication.isAuthenticated()) {
+                String userName = authentication.getName();
+                System.out.println("userName : " + userName);
+
+                boolean isAdmin = authentication.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+
+                if (isAdmin) {
+                    // 자동으로 닉네임 '관리자' 로 지정
+                    dto.setWriterNickname("관리자");
+                }
+            }
 
             // 이미지 저장
             List<Image> images = new ArrayList<>();

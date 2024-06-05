@@ -30,7 +30,7 @@ public class User {
         this.email = dto.getEmail();
         this.password = dto.getPassword();
         this.nickName = dto.getNickname();
-        this.role = dto.getRole();
+        this.role = "ROLE_ADMIN";
     }
 
 }
