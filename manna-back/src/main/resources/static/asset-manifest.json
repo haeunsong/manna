@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1d2c7ad5.css",
+    "main.js": "/static/js/main.ee9aeed0.js",
+    "static/js/453.f96d4734.chunk.js": "/static/js/453.f96d4734.chunk.js",
+    "static/media/bible-on-wood.jpg": "/static/media/bible-on-wood.2e4491d1e5ff9dd22c11.jpg",
+    "static/media/user.png": "/static/media/user.8ba0951bfc03bc7877af.png",
+    "static/media/logo-icon.png": "/static/media/logo-icon.7f424c5716ad09eabddd.png",
+    "index.html": "/index.html",
+    "main.1d2c7ad5.css.map": "/static/css/main.1d2c7ad5.css.map",
+    "main.ee9aeed0.js.map": "/static/js/main.ee9aeed0.js.map",
+    "453.f96d4734.chunk.js.map": "/static/js/453.f96d4734.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1d2c7ad5.css",
+    "static/js/main.ee9aeed0.js"
+  ]
+}
