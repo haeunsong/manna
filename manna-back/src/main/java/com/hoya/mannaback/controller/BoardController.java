@@ -25,6 +25,7 @@ import com.hoya.mannaback.model.response.DeleteBoardResponseDto;
 import com.hoya.mannaback.model.response.GetBoardResponseDto;
 import com.hoya.mannaback.model.response.PostBoardResponseDto;
 import com.hoya.mannaback.model.response.UpdateBoardResponseDto;
+import com.hoya.mannaback.model.response.GetSearchBoardListResponseDto;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -68,6 +69,16 @@ public class BoardController {
     public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(
             @PathVariable("boardNumber") Integer boardNumber) {
         ResponseEntity<? super DeleteBoardResponseDto> response = boardService.deleteBoard(boardNumber);
+        return response;
+    }
+
+    @GetMapping(value = { "/search-list/{searchWord}", "/search-list/{searchWord}/{preSearchWord}" })
+    public ResponseEntity<? super GetSearchBoardListResponseDto> getSearchBoardList(
+            @PathVariable("searchWord") String searchWord,
+            @PathVariable(value = "preSearchWord", required = false) String preSearchWord) { // preSearchWord 는 필수아님. 없는
+                                                                                             // 경우 null.
+        ResponseEntity<? super GetSearchBoardListResponseDto> response = boardService.getSearchBoardList(searchWord,
+                preSearchWord);
         return response;
     }
 }

@@ -8,16 +8,20 @@ import org.springframework.stereotype.Service;
 
 import com.hoya.mannaback.entity.Board;
 import com.hoya.mannaback.entity.Image;
+import com.hoya.mannaback.entity.Search;
 import com.hoya.mannaback.model.request.PostBoardRequestDto;
 import com.hoya.mannaback.model.request.UpdateBoardRequestDto;
 import com.hoya.mannaback.model.response.BoardListView;
 import com.hoya.mannaback.model.response.DeleteBoardResponseDto;
 import com.hoya.mannaback.model.response.GetBoardResponseDto;
+import com.hoya.mannaback.model.response.GetSearchBoardListResponseDto;
 import com.hoya.mannaback.model.response.PostBoardResponseDto;
 import com.hoya.mannaback.model.response.ResponseDto;
 import com.hoya.mannaback.model.response.UpdateBoardResponseDto;
+
 import com.hoya.mannaback.repository.BoardRepository;
 import com.hoya.mannaback.repository.ImageRepository;
+import com.hoya.mannaback.repository.SearchRepository;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -33,6 +37,8 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final ImageRepository imageRepository;
+
+    private final SearchRepository searchRepository;
     // ModelMapper modelMapper = new ModelMapper();
 
     // 최근 작성된 순으로 전체 게시글 불러오기
@@ -187,6 +193,34 @@ public class BoardService {
             return UpdateBoardResponseDto.fail();
         }
         return UpdateBoardResponseDto.success();
+    }
+
+    // 검색 게시물 리스트 불러오기
+    public ResponseEntity<? super GetSearchBoardListResponseDto> getSearchBoardList(String searchWord,
+            String preSearchWord) {
+        List<Board> boardListViews = new ArrayList<>();
+
+        try {
+            // 검색어를 통해 게시물 리스트 가져오기
+            boardListViews = boardRepository
+                    .findByTitleContainsOrContentContainsOrderByWriteDatetimeDesc(searchWord, searchWord);
+
+            Search searchLog = new Search(searchWord, preSearchWord, 0);
+            searchRepository.save(searchLog);
+
+            // preSearchWord 가 존재하면 true
+            boolean relation = preSearchWord != null;
+
+            if (relation) {
+                searchLog = new Search(preSearchWord, searchWord, 1);
+                searchRepository.save(searchLog);
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetSearchBoardListResponseDto.success(boardListViews);
     }
 
 }

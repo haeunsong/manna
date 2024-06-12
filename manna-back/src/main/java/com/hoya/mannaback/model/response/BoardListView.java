@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
+@Entity
 public class BoardListView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
