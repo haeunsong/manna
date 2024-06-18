@@ -9,6 +9,7 @@ import SignInResponseDto from './response/auth/sign-in.response.dto';
 import { useNavigate } from 'react-router-dom';
 import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
 
+
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
 // const API_DOMAIN = `${DOMAIN}/api/v1`;
@@ -23,6 +24,10 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
         return responseBody;
     }catch(error){
         if (axios.isAxiosError(error)) {
+            if (error.response?.status === 400) {
+                // 유효성 검사 오류 메시지를 포함한 데이터를 반환
+                return error.response.data;
+            }
             const responseBody: ResponseDto = error.response?.data;
             return responseBody;
         } else {
@@ -32,8 +37,10 @@ export const signUpRequest = async (requestBody: SignUpRequestDto) => {
 }
 const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`
 export const signInRequest = async (requestBody: SignInRequestDto) => {
+   
     try {
         const response = await axios.post(SIGN_IN_URL(),requestBody);
+        
         const token = response.data.token;
         if(token) {
             localStorage.setItem('token', token);
@@ -47,6 +54,10 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
         return responseBody;
     }catch(error){
         if (axios.isAxiosError(error)) {
+            if (error.response?.status === 400) {
+                // 유효성 검사 오류 메시지를 포함한 데이터를 반환
+                return error.response.data;
+            }
             const responseBody: ResponseDto = error.response?.data;
             return responseBody;
         } else {

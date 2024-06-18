@@ -11,11 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SignInRequestDto {
 
-    @NotBlank
+    @NotBlank(message = "이메일은 필수 입력 사항입니다.")
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 20)
+    @NotBlank(message = "이메일은 필수 입력 사항입니다.")
+    @Size(min = 8, max = 20, message = "패스워드는 최소8자 이상이어야 합니다.")
     private String password;
 
 }
