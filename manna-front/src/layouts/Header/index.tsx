@@ -246,16 +246,22 @@ const Header = () => {
 
         {isAuthPage ? null : isBoardWritePage || isBoardUpdatePage ? (
           <div className="header-right-box">
-            <button onClick={onBoardUploadClickHandler}>글 업로드</button>
+            <button className="b1" onClick={onBoardUploadClickHandler}>
+              글 업로드
+            </button>
           </div>
         ) : (
           <div className="header-right-box">
-            <button onClick={onBoardWriteClickHandler}>글 작성하기</button>
+            <button className="b1" onClick={onBoardWriteClickHandler}>
+              글 작성하기
+            </button>
           </div>
         )}
 
         {!isAdmin ? null : isAdminIndexPage ? (
-          <button onClick={onLogoutClickHandler}>로그아웃</button>
+          <button className="b1" onClick={onLogoutClickHandler}>
+            로그아웃
+          </button>
         ) : (
           <div className="icon-box">
             <div

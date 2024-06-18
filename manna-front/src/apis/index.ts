@@ -66,8 +66,6 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
     };
 }
 
-// 로그인 완료시 관리자 페이지
-const GET_ADMIN_PAGE_URL = `${API_DOMAIN}/admin/index`;
 
 // 특정게시물 조회
 const GET_BOARD_URL = (boardNumber: undefined | string) => `${API_DOMAIN}/board/detail/${boardNumber}`;
