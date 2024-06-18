@@ -1,0 +1,25 @@
+.search-contents-box {
+    margin-top: 20px;
+    }
+    .search-contents {
+       
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    }
+    .search-pagination-box {
+        display: flex;
+        justify-content: center;
+    }
+
+.search-title-box {
+    display:flex;
+    font-size: 30px;
+   justify-content: center;
+   margin-top: 20px;
+   color:rgba(0,0,0,0.7);
+}
+span {
+    font-weight: 700;
+}

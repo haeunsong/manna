@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import ResponseDto from './response';
-import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto} from './response/board';
+import { GetBoardResponseDto, PostBoardResponseDto,DeleteBoardResponseDto, UpdateBoardResponseDto, GetSearchBoardListResponseDto} from './response/board';
 import { PostBoardRequestDto, UpdateBoardRequestDto } from './request/board';
 import BoardListItem from 'types/interface/board-list-item.interface';
 import { SignInRequestDto, SignUpRequestDto } from './request/auth';
@@ -162,6 +162,28 @@ export const updateBoardRequest = async(boardNumber : number | string, requestBo
     
 }
 
+// 검색 결과 리스트 받아오기
+const GET_SEARCH_BOARD_LIST_URL = (searchWord:string, preSearchWord:string| null) => `${API_DOMAIN}/board/search-list/${searchWord}${preSearchWord? '/' : ''}}`;
+export const getSearchBoardListRequest = async (searchWord:string, preSearchWord:string | null) => {
+    try {
+        const response = await axios.get(GET_SEARCH_BOARD_LIST_URL(searchWord, preSearchWord), {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`, // 토큰을 localStorage (또는 적절한 위치)에서 가져오는 코드
+                'Content-Type': 'application/json'
+            }
+        });
+        const responseBody: GetSearchBoardListResponseDto = response.data;
+        console.log("responseBody", responseBody);
+        return responseBody;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            const responseBody: ResponseDto = error.response?.data;
+            return responseBody;
+        } else {
+            throw error; // AxiosError가 아닌 다른 타입의 오류는 다시 던짐
+        }
+    }
+}
 // http://localhost:4000/file
 const FILE_DOMAIN = `${DOMAIN}/file`;
 

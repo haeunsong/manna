@@ -4,6 +4,7 @@ import PostBoardResponseDto from "./post-board-interface";
 import GetBoardResponseDto from "./get-board-interface";
 import DeleteBoardResponseDto from "./delete-board.response.dto";
 import UpdateBoardResponseDto from "./update-board.response.dto";
+import GetSearchBoardListResponseDto from "./get-search-board-list.response.dto";
 
 
 export type {
@@ -11,5 +12,6 @@ export type {
     GetBoardResponseDto,
     DeleteBoardResponseDto,
     UpdateBoardResponseDto,
+    GetSearchBoardListResponseDto
     
 }

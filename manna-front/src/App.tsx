@@ -9,6 +9,7 @@ import {
   BOARD_UPDATE_PATH,
   BOARD_WRITE_PATH,
   MAIN_PATH,
+  SEARCH_PATH,
 } from "constant";
 
 import Authentication from "views/Authentication";
@@ -20,6 +21,7 @@ import Header from "layouts/Header";
 import Container from "layouts/Container";
 import BoardDetail from "views/Board/BoardDetail";
 import User from "components/User";
+import Search from "views/Search";
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
         <Route path={MAIN_PATH()} element={<Main />} />
         <Route path={AUTH_PATH()} element={<Authentication />} />
         <Route path={ADMIN_PAGE_PATH()} element={<User />} />
-
+        <Route path={SEARCH_PATH(":searchWord")} element={<Search />} />
         <Route path={BOARD_PATH()}>
           {/* /board/write */}
           <Route path={BOARD_WRITE_PATH()} element={<BoardWrite />} />
