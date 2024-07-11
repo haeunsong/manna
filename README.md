@@ -1,3 +1,24 @@
+# api 목록
+## BIBLE
+GET /api/v1/bible/today
+
+## BOARD
+GET /api/v1/board/list
+GET /api/v1/board/detail/{boardNumber}
+GET /api/v1/board/search-list/{searchWord}
+POST /api/v1/board/post
+PATCH /api/v1/board/update/{boardNumber}
+DELETE /api/v1/board/detail/{boardNumber}
+
+## AUTH
+POST /api/v1/auth/sign-up
+POST /api/v1/auth/sign-in
+GET /api/v1/user/index
+
+## FILE
+POST /file/upload
+GET /file/{fileName}
+
 # 1. 사용된 기술들
 
 ## 1.1 프론트엔드
