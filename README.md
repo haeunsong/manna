@@ -3,6 +3,8 @@
 GET /api/v1/bible/today
 
 ## BOARD
+|Method|URL|
+|------|-----------------|
 |GET| /api/v1/board/list|
 |GET| /api/v1/board/detail/{boardNumber}|
 |GET| /api/v1/board/search-list/{searchWord}|
