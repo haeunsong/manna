@@ -3,13 +3,12 @@
 GET /api/v1/bible/today
 
 ## BOARD
-
-GET /api/v1/board/list
-GET /api/v1/board/detail/{boardNumber}
-GET /api/v1/board/search-list/{searchWord}
-POST /api/v1/board/post
-PATCH /api/v1/board/update/{boardNumber}
-DELETE /api/v1/board/detail/{boardNumber}
+> GET /api/v1/board/list
+> GET /api/v1/board/detail/{boardNumber}
+> GET /api/v1/board/search-list/{searchWord}
+> POST /api/v1/board/post
+> PATCH /api/v1/board/update/{boardNumber}
+> DELETE /api/v1/board/detail/{boardNumber}
 
 ## AUTH
 POST /api/v1/auth/sign-up
