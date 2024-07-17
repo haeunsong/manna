@@ -12,6 +12,7 @@ export type {
     GetBoardResponseDto,
     DeleteBoardResponseDto,
     UpdateBoardResponseDto,
-    GetSearchBoardListResponseDto
+    GetSearchBoardListResponseDto,
+  
     
 }

@@ -22,6 +22,7 @@ const usePagination = <T>(countPerPage:number) => {
     const [totalSectionNumber, setTotalSectionNumber] = useState<number>(1);
 
     // function: 보여줄 객체 리스트 추출 함수
+    // viewList: 한 페이지당 보여줄 게시물들
     const setView = () => {
         const FIRST_INDEX  = countPerPage * (currentPageNumber -1);
         const LAST_INDEX = countPerPage * currentPageNumber;
@@ -29,6 +30,7 @@ const usePagination = <T>(countPerPage:number) => {
         setViewList(viewList);
     }
     // function: 보여줄 페이지 리스트 추출 함수
+    // viewPageNumberList: 한페이지의 아래쪽에 보여줄 페이지 넘버 리스트 
     const setViewPage = () => {
         const FIRST_INDEX = 10 * (currentSectionNumber - 1);
         const LAST_INDEX = totalPageNumberList.length > 10 * currentSectionNumber ? 10 * currentSectionNumber : totalPageNumberList.length;

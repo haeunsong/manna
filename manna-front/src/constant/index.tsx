@@ -12,3 +12,5 @@ export const BOARD_DETAIL_PATH = (boardNumber: string | number) =>
 export const BOARD_WRITE_PATH = () => "write";
 export const BOARD_UPDATE_PATH = (boardNumber: string | number) =>
   `update/${boardNumber}`;
+
+export const TODAY_BIBLE_PATH = () => "/bible/today";

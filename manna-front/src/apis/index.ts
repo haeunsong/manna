@@ -8,11 +8,56 @@ import { SignUpResponseDto } from './response/auth';
 import SignInResponseDto from './response/auth/sign-in.response.dto';
 import { useNavigate } from 'react-router-dom';
 import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
+import { GetReadBibleRequestDto } from './request/bible';
+import GetReadBibleResponseDto from './response/bible/get-read-bible.response.dto';
 
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
 // const API_DOMAIN = `${DOMAIN}/api/v1`;
+
+const GET_READ_BIBLE_URL = () => `${API_DOMAIN}/bible/read-verse`
+export const getReadBibleRequest = async(requestBody: GetReadBibleRequestDto): Promise<GetReadBibleResponseDto[]> => {
+
+    console.log("getReadBibleRequest가 호출되었습니다.");
+    try {
+        const response = await axios.get(GET_READ_BIBLE_URL(), {
+            params: {
+                long_label: requestBody.long_label
+            }
+        });
+        const responseBody: GetReadBibleResponseDto[] = response.data;
+        console.log(responseBody);
+        return responseBody;
+
+    }catch(error) {
+        if (axios.isAxiosError(error)) {
+            console.error('Axios error:', error.response?.data);
+            throw new Error('Error fetching Bible verses');
+          } else {
+            console.error('Unexpected error:', error);
+            throw error; // AxiosError가 아닌 다른 타입의 오류는 다시 던짐
+          }
+    }
+
+}
+
+// 오늘의 말씀구절 가져오기
+const TODAY_BIBLE_URL = () => `${API_DOMAIN}/bible/today-verse`
+export const getTodayBibleRequest = async() => {
+    try{
+        const response = await axios.get(TODAY_BIBLE_URL());
+        const responseBody = response.data;
+        return responseBody;
+    }catch(error){
+        if (axios.isAxiosError(error)) {
+            const responseBody: ResponseDto = error.response?.data;
+            return responseBody;
+        } else {
+            throw error; // AxiosError가 아닌 다른 타입의 오류는 다시 던짐
+        }
+    }
+}
 
 
 const SIGN_UP_URL =  () => `${API_DOMAIN}/auth/sign-up`

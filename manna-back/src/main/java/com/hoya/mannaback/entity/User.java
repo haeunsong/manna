@@ -21,11 +21,6 @@ public class User {
     String nickName;
     String role; // 괸리자 or null
 
-    // user - board 1:N
-    // @ManyToOne
-    // @JoinColumn(name = "writerEmail")
-    // Board board;
-
     public User(SignUpRequestDto dto) {
         this.email = dto.getEmail();
         this.password = dto.getPassword();
