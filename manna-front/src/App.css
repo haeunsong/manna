@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .more-icon {
   background-image: url(assets/image/more.png);
 
