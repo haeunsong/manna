@@ -1,24 +1,20 @@
 # api 목록
-## BIBLE
-GET /api/v1/bible/today
 
-## BOARD
-
-GET /api/v1/board/list
-GET /api/v1/board/detail/{boardNumber}
-GET /api/v1/board/search-list/{searchWord}
-POST /api/v1/board/post
-PATCH /api/v1/board/update/{boardNumber}
-DELETE /api/v1/board/detail/{boardNumber}
-
-## AUTH
-POST /api/v1/auth/sign-up
-POST /api/v1/auth/sign-in
-GET /api/v1/user/index
-
-## FILE
-POST /file/upload
-GET /file/{fileName}
+|type|Method|URL|
+|-----|------|-----------------|
+|BIBLE|GET| /api/v1/bible/today-verse|
+|BIBLE|GET| /api/b1/bible/read-verse?long_label={}|
+|BOARD|GET| /api/v1/board/list|
+|BOARD|GET| /api/v1/board/detail/{boardNumber}|
+|BOARD|GET| /api/v1/board/search-list/{searchWord}|
+|BOARD|POST| /api/v1/board/post|
+|BOARD|PATCH| /api/v1/board/update/{boardNumber}|
+|BOARD|DELETE| /api/v1/board/detail/{boardNumber}|
+|AUTH|POST| /api/v1/auth/sign-up|
+|AUTH|POST| /api/v1/auth/sign-in|
+|AUTH|GET| /api/v1/user/index|
+|FILE|POST| /file/upload|
+|FILE|GET| /file/{fileName}|
 
 # 1. 사용된 기술들
 
