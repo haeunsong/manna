@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main-wrapper {
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.top-container {
+    background-color: rgba(0,0,0,0.05);
+    padding: 130px;
+
+}
+.top-box {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.top-title {
+    font-size: 60px;
+    font-weight: bold;
+}
+.top-sub-title {
+    font-size: 30px;
+    color: rgba(0,0,0,0.7);
+}
+button {
+    width: 90px;
+    background:none;
+    color: rgba(0,0,0,0.7);
+    margin-left: 10px;
+
+}
+button:hover {
+    width: 90px;
+    background:rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.7);
+    margin-left: 10px;
+}
+.top-sns-button {
+    margin-top: 30px;
+}

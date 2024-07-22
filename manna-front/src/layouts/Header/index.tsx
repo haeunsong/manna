@@ -2,11 +2,17 @@ import {
   ADMIN_PAGE_PATH,
   AUTH_PATH,
   BOARD_DETAIL_PATH,
+  BOARD_MAIN_PATH,
   BOARD_PATH,
   BOARD_UPDATE_PATH,
   BOARD_WRITE_PATH,
+  CALENDAR_INFO_PATH,
+  GRADE_INFO_PATH,
   MAIN_PATH,
+  MINISTRY_INFO_PATH,
   SEARCH_PATH,
+  SMALLGROUP_INFO_PATH,
+  SUPPORT_INFO_PATH,
 } from "constant";
 import React, {
   ChangeEvent,
@@ -50,6 +56,7 @@ const Header = () => {
   const isBoardDetailPage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_DETAIL_PATH("")
   );
+  const isBoardPage = pathname === BOARD_MAIN_PATH();
   const isBoardWritePage = pathname.startsWith(
     BOARD_PATH() + "/" + BOARD_WRITE_PATH()
   );
@@ -244,6 +251,25 @@ const Header = () => {
           </div>
         )}
 
+        <button className="b1" onClick={() => navigate(BOARD_MAIN_PATH())}>
+          게시판
+        </button>
+        <button className="b1" onClick={() => navigate(GRADE_INFO_PATH())}>
+          학년소개
+        </button>
+        <button className="b1" onClick={() => navigate(SMALLGROUP_INFO_PATH())}>
+          소모임
+        </button>
+        <button className="b1" onClick={() => navigate(MINISTRY_INFO_PATH())}>
+          사역팀
+        </button>
+        <button className="b1" onClick={() => navigate(SUPPORT_INFO_PATH())}>
+          후원
+        </button>
+        <button className="b1" onClick={() => navigate(CALENDAR_INFO_PATH())}>
+          일정
+        </button>
+
         {isAuthPage ? null : isBoardWritePage || isBoardUpdatePage ? (
           <div className="header-right-box">
             <button className="b1" onClick={onBoardUploadClickHandler}>
@@ -252,9 +278,11 @@ const Header = () => {
           </div>
         ) : (
           <div className="header-right-box">
-            <button className="b1" onClick={onBoardWriteClickHandler}>
-              글 작성하기
-            </button>
+            {isBoardPage ? (
+              <button className="b1" onClick={onBoardWriteClickHandler}>
+                글 작성하기
+              </button>
+            ) : null}
           </div>
         )}
 

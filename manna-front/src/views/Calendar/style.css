@@ -1,0 +1,74 @@
+/* Calendar.css */
+.calendar {
+    width: 350px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.row {
+    display: flex;
+}
+
+.col {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.col-start {
+    text-align: left;
+}
+
+.col-end {
+    text-align: right;
+}
+
+.col-center {
+    text-align: center;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.days {
+    background-color: #f4f4f4;
+    padding: 10px 0;
+}
+
+.cell {
+    cursor: pointer;
+    position: relative;
+}
+
+.cell.selected {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.cell.disabled {
+    color: #ccc;
+}
+
+.cell .number {
+    position: relative;
+    z-index: 2;
+}
+
+.cell .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
