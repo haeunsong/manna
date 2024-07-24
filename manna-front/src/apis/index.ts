@@ -10,13 +10,35 @@ import { useNavigate } from 'react-router-dom';
 import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
 import { GetReadBibleRequestDto } from './request/bible';
 import GetReadBibleResponseDto from './response/bible/get-read-bible.response.dto';
+import { GetEventByDateResponseDto } from './response/event';
 
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
 // const API_DOMAIN = `${DOMAIN}/api/v1`;
 
+const GET_EVENT_BY_DATE_URL = (date: Date) => `${API_DOMAIN}/event/${date}`
+export const getEventByDateRequest = async(date: Date) => {
+    const result = await axios.get(GET_EVENT_BY_DATE_URL(date))
+        .then(response => {
+            const responseBody= response.data;
+            console.log("Get Event By Date Request responseBody", responseBody);
+            return responseBody;
+
+        })
+        .catch(error => {
+            if (!error.response) return null;
+            const responseBody: ResponseDto = error.response.data;
+            console.log(responseBody);
+            return responseBody;
+
+        })
+    return result;
+}
+
+
 const GET_READ_BIBLE_URL = () => `${API_DOMAIN}/bible/read-verse`
+
 export const getReadBibleRequest = async(requestBody: GetReadBibleRequestDto): Promise<GetReadBibleResponseDto[]> => {
 
     console.log("getReadBibleRequest가 호출되었습니다.");

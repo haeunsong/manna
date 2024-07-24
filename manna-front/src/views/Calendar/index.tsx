@@ -1,5 +1,5 @@
 // Calendar.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   format,
   startOfMonth,
@@ -13,11 +13,34 @@ import {
   isSameDay,
 } from "date-fns";
 import "./style.css";
+import { getEventByDateRequest } from "apis";
+import Event from "types/interface/event.interface";
+import { GetEventByDateResponseDto } from "apis/response/event";
+import ResponseDto from "apis/response";
 
 export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [events, setEvents] = useState<Event[]>([]);
+  useEffect(() => {
+    if (selectedDate) {
+      getEventByDateRequest(selectedDate).then(getEventByDateResponse);
+    }
+  }, [selectedDate]);
 
+  const getEventByDateResponse = (
+    responseBody: GetEventByDateResponseDto[]
+  ) => {
+    if (!responseBody) return;
+    const events: Event[] = responseBody.map((item) => ({
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      date: item.date,
+    }));
+
+    setEvents(events);
+  };
   const renderHeader = () => {
     return (
       <div className="header row flex-middle">

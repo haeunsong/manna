@@ -13,6 +13,7 @@ export type {
     DeleteBoardResponseDto,
     UpdateBoardResponseDto,
     GetSearchBoardListResponseDto,
+    
   
     
 }
