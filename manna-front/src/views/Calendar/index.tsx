@@ -22,12 +22,50 @@ export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
+  const [eventsByDate, setEventsByDate] = useState<Map<string, Event[]>>(
+    new Map()
+  ); // 이벤트가 있는 날짜를 추적하는 Map 객체.
+
+  // 모든 일정 불러오기
   useEffect(() => {
     if (selectedDate) {
-      getEventByDateRequest(selectedDate).then(getEventByDateResponse);
+      const formattedDate = format(selectedDate, "yyyy-MM-dd");
+      getEventByDateRequest(formattedDate).then(getEventByDateResponse);
     }
   }, [selectedDate]);
 
+  // 일정이 존재하는 날짜에 초록색 점 표시하기
+  useEffect(() => {
+    if (currentMonth) {
+      // 여기에 현재 월의 모든 날짜를 API 에 요청하여 이벤트 데이터를 가져온다.
+      const startDate = startOfMonth(currentMonth);
+      const endDate = endOfMonth(currentMonth);
+      const dateRange: any[] = [];
+      let day = startDate;
+
+      // 현재 월의 모든 날짜를 배열에 추가한다.
+      while (day <= endDate) {
+        dateRange.push(format(day, "yyyy-MM-dd")); // 날짜를 문자열 형식으로 변환하여 배열에 추가한다.
+        day = addDays(day, 1); // 다음 날짜로 이동
+      }
+
+      // dateRange : 현재 달의 모든 날짜가 들어있음.
+      Promise.all(dateRange.map((date) => getEventByDateRequest(date))).then(
+        (response) => {
+          console.log("response: ", response);
+          // 날짜와 이벤트 목록을 매핑할 Map 객체 생성
+          const dateMap = new Map<string, Event[]>();
+          // 응답 데이터를 날짜와 매핑하여 Map 에 저장
+          response.forEach((response, index) => {
+            const date = dateRange[index];
+            dateMap.set(date, response);
+          });
+          console.log("dateMap", dateMap);
+          setEventsByDate(dateMap);
+        }
+      );
+    }
+  }, [currentMonth]);
   const getEventByDateResponse = (
     responseBody: GetEventByDateResponseDto[]
   ) => {
@@ -87,37 +125,65 @@ export default function Calendar() {
 
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, "d");
-        const cloneDay = day; //클릭 핸들러에 전달할 때 현재 날짜 객체를 클로저로 캡처
+        formattedDate = format(day, "yyyy-MM-dd");
+        const cloneDay = day;
+        const events = eventsByDate.get(formattedDate) || [];
+
         days.push(
           <div
-            className={`col cell ${
-              !isSameMonth(day, monthStart) // 현재 달의 날짜인지 확인
-                ? "disabled"
-                : isSameDay(day, selectedDate!) // 선택된 날짜인지 확인
-                ? "selected"
+            className={`w-12 h-12 flex items-center justify-center cursor-pointer relative ${
+              !isSameMonth(day, monthStart)
+                ? "text-gray-400"
+                : isSameDay(day, selectedDate!)
+                ? "bg-blue-500 text-white rounded-full"
                 : ""
             }`}
             key={day.toString()}
             onClick={() => onDateClick(cloneDay)}
           >
-            <span className="number">{formattedDate}</span>
-            <span className="bg">{formattedDate}</span>
+            {format(day, "d")}
+            {/* 일정이 있으면 초록색 점 추가 */}
+            {events.length > 0 && (
+              <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+            )}
           </div>
         );
         day = addDays(day, 1);
       }
-      // 주 단위로 행 추가
       rows.push(
-        <div className="row" key={day.toString()}>
+        <div className="grid grid-cols-7 gap-2" key={day.toString()}>
           {days}
         </div>
       );
-      days = []; // 새로운 주를 위해 초기화
+      days = [];
     }
-    return <div className="body">{rows}</div>;
+    return <div>{rows}</div>;
   };
 
+  const renderEvents = () => {
+    if (events.length === 0) {
+      return <div className="text-center text-gray-500">일정이 없습니다.</div>;
+    }
+    return (
+      /* space-x-4 : 간격
+      
+      */
+      <div className="mt-6 flex space-x-4 py-4 px-2">
+        {events.map((event) => (
+          <div
+            className="flex-none w-60 p-4 bg-white shadow-lg rounded-lg"
+            key={event.id}
+          >
+            <div className="font-semibold text-lg mb-2">{event.title}</div>
+            <div className="text-sm text-gray-600 mb-2">
+              {event.description}
+            </div>
+            <div className="text-xs text-gray-400">{event.date}</div>
+          </div>
+        ))}
+      </div>
+    );
+  };
   const onDateClick = (day: Date) => {
     setSelectedDate(day);
   };
@@ -131,10 +197,18 @@ export default function Calendar() {
   };
 
   return (
-    <div className="calendar">
+    <div className="calendar p-4">
       {renderHeader()}
       {renderDays()}
       {renderCells()}
+      {selectedDate && (
+        <div className="mt-14">
+          <h2 className="mt-5 text-xl font-bold mb-2">
+            {format(selectedDate, "yyyy년 M월 d일")}의 일정
+          </h2>
+          {renderEvents()}
+        </div>
+      )}
     </div>
   );
 }
