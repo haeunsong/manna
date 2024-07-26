@@ -70,6 +70,7 @@ export default function Calendar() {
     responseBody: GetEventByDateResponseDto[]
   ) => {
     if (!responseBody) return;
+    console.log("getEventByDateResponse ResponseBody: ", responseBody);
     const events: Event[] = responseBody.map((item) => ({
       id: item.id,
       title: item.title,
