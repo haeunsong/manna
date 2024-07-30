@@ -20,7 +20,7 @@ import ResponseDto from "apis/response";
 
 export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // 첫 화면이 오늘의 날짜 이도록 설정
   const [events, setEvents] = useState<Event[]>([]);
   const [eventsByDate, setEventsByDate] = useState<Map<string, Event[]>>(
     new Map()

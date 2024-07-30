@@ -19,8 +19,7 @@ const API_DOMAIN = '/api/v1';
 
 const GET_EVENT_BY_DATE_URL = (date: String) => `${API_DOMAIN}/event/${date}`
 export const getEventByDateRequest = async(date: String) : Promise<GetEventByDateResponseDto[]>  => {
-    console.log("getEventByDateRequest 호출되었습니다.");
-    
+
     const result = await axios.get(GET_EVENT_BY_DATE_URL(date))
         .then(response => {
             const responseBody= response.data;
