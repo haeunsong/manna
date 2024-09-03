@@ -10,13 +10,35 @@ import { useNavigate } from 'react-router-dom';
 import { BOARD_DETAIL_PATH, BOARD_PATH } from 'constant';
 import { GetReadBibleRequestDto } from './request/bible';
 import GetReadBibleResponseDto from './response/bible/get-read-bible.response.dto';
-import { GetEventByDateResponseDto } from './response/event';
+import { GetEventByDateResponseDto, PostEventResponseDto } from './response/event';
+import { PostEventRequestDto } from './request/event';
 
 
 const DOMAIN = 'http://localhost:4000';
 const API_DOMAIN = '/api/v1';
 // const API_DOMAIN = `${DOMAIN}/api/v1`;
 
+const CREATE_EVENT_URL = () =>  `${API_DOMAIN}/event/post`
+export const createEventRequest = async(requestBody: PostEventRequestDto) => {
+    const result = await axios.post(CREATE_EVENT_URL(),requestBody )
+    .then (response => {
+        const responseBody : PostEventResponseDto = response.data;
+        console.log("createEventRequst 호출", responseBody);
+        return responseBody;
+    })
+    .catch(error => {
+        // 존재하지 않는다면
+        console.log("error: " + error);
+            
+        if (!error.response) return null;
+        const responseBody: ResponseDto = error.response.data;
+        console.log("error.response.data:" + error.response.data);
+        return responseBody;
+    })
+
+    return result;
+
+}
 const GET_EVENT_BY_DATE_URL = (date: String) => `${API_DOMAIN}/event/${date}`
 export const getEventByDateRequest = async(date: String) : Promise<GetEventByDateResponseDto[]>  => {
 
@@ -36,10 +58,7 @@ export const getEventByDateRequest = async(date: String) : Promise<GetEventByDat
         })
     return result;
 }
-
-
 const GET_READ_BIBLE_URL = () => `${API_DOMAIN}/bible/read-verse`
-
 export const getReadBibleRequest = async(requestBody: GetReadBibleRequestDto): Promise<GetReadBibleResponseDto[]> => {
 
     console.log("getReadBibleRequest가 호출되었습니다.");
@@ -64,7 +83,6 @@ export const getReadBibleRequest = async(requestBody: GetReadBibleRequestDto): P
     }
 
 }
-
 // 오늘의 말씀구절 가져오기
 const TODAY_BIBLE_URL = () => `${API_DOMAIN}/bible/today-verse`
 export const getTodayBibleRequest = async() => {
@@ -81,8 +99,6 @@ export const getTodayBibleRequest = async() => {
         }
     }
 }
-
-
 const SIGN_UP_URL =  () => `${API_DOMAIN}/auth/sign-up`
 // auth 부분
 export const signUpRequest = async (requestBody: SignUpRequestDto) => {
@@ -158,7 +174,6 @@ export const getBoardDetailRequest = async (boardNumber: undefined | string) => 
 
 // http://localhost:4000/api/v1/board/post
 const POST_BOARD_URL = () => `${API_DOMAIN}/board/post`;
-
 export const postBoardRequest = async (requestBody: PostBoardRequestDto) => {
     console.log("postBoardRequest 호출");
 

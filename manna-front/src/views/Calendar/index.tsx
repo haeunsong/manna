@@ -13,10 +13,12 @@ import {
   isSameDay,
 } from "date-fns";
 import "./style.css";
-import { getEventByDateRequest } from "apis";
+import { createEventRequest, getEventByDateRequest } from "apis";
 import Event from "types/interface/event.interface";
 import { GetEventByDateResponseDto } from "apis/response/event";
 import ResponseDto from "apis/response";
+import { PostEventRequestDto } from "apis/request/event";
+import ResponseCode from "types/enum/response-code-enum";
 
 export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
@@ -26,6 +28,24 @@ export default function Calendar() {
     new Map()
   ); // 이벤트가 있는 날짜를 추적하는 Map 객체.
 
+  const [newEvent, setNewEvent] = useState<{
+    title: string;
+    description: string;
+  }>({ title: "", description: "" });
+
+  // 모달 상태를 추가합니다.
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalData, setModalData] = useState<PostEventRequestDto | null>(null);
+
+  // 모달 열기 함수
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 모달 닫기 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   // 모든 일정 불러오기
   useEffect(() => {
     if (selectedDate) {
@@ -197,19 +217,84 @@ export default function Calendar() {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
 
+  // 일정 추가하기 제출 버튼 클릭시
+  const handleCreateEvent = async (event: PostEventRequestDto) => {
+    if (selectedDate && event.title && event.description) {
+      const formattedDate = format(selectedDate, "yyyy-MM-dd");
+      const requestBody: PostEventRequestDto = {
+        ...event,
+        date: formattedDate,
+      };
+      console.log("requestBody:", requestBody);
+      const response = createEventRequest(requestBody);
+      console.log("handleCreateEvent 함수 호출!", response);
+    }
+    closeModal();
+  };
+  // 모달 컴포넌트
+  const Modal = () => {
+    const [title, setTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+
+    const handleSubmit = () => {
+      console.log("handleSumbit 호출");
+      if (selectedDate) {
+        handleCreateEvent({
+          title,
+          description,
+          date: format(selectedDate, "yyyy-MM-dd"),
+        });
+      }
+    };
+
+    return (
+      <div className={`modal ${isModalOpen ? "modal-open" : ""}`}>
+        <div className="modal-content">
+          <h2>일정 추가</h2>
+          <label>
+            제목:
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+          <label>
+            설명:
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </label>
+          <button onClick={handleSubmit}>저장</button>
+          <button onClick={closeModal}>취소</button>
+        </div>
+      </div>
+    );
+  };
   return (
     <div className="calendar p-4">
       {renderHeader()}
       {renderDays()}
       {renderCells()}
       {selectedDate && (
-        <div className="mt-14">
-          <h2 className="mt-5 text-xl font-bold mb-2">
-            {format(selectedDate, "yyyy년 M월 d일")}의 일정
-          </h2>
-          {renderEvents()}
+        <div>
+          <div className="mt-14 flex">
+            <h2 className="mt-5 text-xl font-bold mb-2">
+              {format(selectedDate, "yyyy년 M월 d일")}의 일정
+            </h2>
+            <button
+              className="mt-4 w-10 h-10 bg-blue-500 hover:bg-blue-600 hover:w-10 hover:h-10 text-white hover:w-text-white font-bold rounded focus:outline-none focus:shadow-outline"
+              onClick={openModal}
+            >
+              {" "}
+              +
+            </button>
+          </div>
+          <div> {renderEvents()}</div>
         </div>
       )}
+      {isModalOpen && <Modal />}
     </div>
   );
 }
