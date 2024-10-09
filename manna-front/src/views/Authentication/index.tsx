@@ -131,6 +131,10 @@ export default function Authentication() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
+
+    // 인증번호 확인 추가
+    const [otpCode, setOTPCode] = useState("");
+
     const [nickname, setNickname] = useState("");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const onEmailChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -150,6 +154,10 @@ export default function Authentication() {
       setErrors({ ...errors, nickname: "" });
     };
 
+    const onCheckOTPCodeChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      setOTPCode(e.target.value);
+      setErrors({ ...errors, otpCode: "" });
+    };
     const onSignInClick = () => {
       setView("sign-in");
     };
@@ -181,6 +189,13 @@ export default function Authentication() {
         formIsValid = false;
         newErrors.nickname = "닉네임을 입력하세요.";
       }
+
+      // 인증번호 6자리 검증 로직 추가
+      // ex> 인증번호가 올바르지 않습니다.
+      /*
+      AWS SES 를 통해 이메일로 인증번호를 보낸다.
+      그 인증번호와 같은지 어떻게 알 수 있는가?
+      */
 
       setErrors(newErrors);
       return formIsValid;
@@ -259,6 +274,19 @@ export default function Authentication() {
               {errors.checkPassword && (
                 <p style={{ color: "red" }}>{errors.checkPassword}</p>
               )}
+
+              <div className="input-label">인증번호 확인</div>
+              <input
+                name="otpCode"
+                type="text"
+                value={otpCode}
+                onChange={onCheckOTPCodeChangeHandler}
+                placeholder="입력한 이메일로 전송된 인증번호 6자리를 입력하세요."
+              />
+              {errors.checkPassword && (
+                <p style={{ color: "red" }}>{errors.checkOTPCode}</p>
+              )}
+
               <div className="input-label">닉네임</div>
               <input
                 name="nickname"
