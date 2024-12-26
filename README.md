@@ -1,3 +1,7 @@
+# 시연동영상
+
+https://github.com/user-attachments/assets/9928c365-6632-48ee-b68a-c3cf246713e0
+
 # api 목록
 
 |type|Method|URL|
